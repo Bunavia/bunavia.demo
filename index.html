@@ -147,6 +147,18 @@ nav{position:relative}
 .menu a{display:block;padding:12px 14px;border-radius:8px;color:#0F1C2E;text-decoration:none;font-weight:500}
 .menu a:hover{background:#EAF2FB}
 .menu hr{border:0;border-top:1px solid #D8DFE8;margin:6px 8px}
+header{border-radius:0 0 36px 36px;padding-bottom:44px}
+.search{border-radius:14px}
+.tabs+.search{border-top-left-radius:0}
+#fares{position:relative;padding-top:88px}
+#fares::before{content:"";position:absolute;right:max(20px,calc(50% - 540px));top:22px;width:360px;max-width:60%;height:64px;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 64"><path d="M4 58C90 8 230 4 330 32" fill="none" stroke="%231D6FD8" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round" opacity=".55"/><g transform="translate(322 14) rotate(25) scale(1.1)"><path d="M3 11 21 3l-8 18-2.5-7.5z" fill="%231D6FD8"/></g></svg>') no-repeat right center/contain;pointer-events:none}
+.legrow{position:relative;display:grid;grid-template-columns:1.3fr 1.3fr 1fr 44px;border-top:1px solid var(--edge)}
+.legrow:first-child{border-top:0}
+.legrow .f{padding:8px 14px;border-left:1px solid var(--edge);min-width:0}
+.legrow .f:first-child{border-left:0}
+.legrow .rm{border:0;border-left:1px solid var(--edge);background:transparent;color:var(--muted);font-size:22px;cursor:pointer}
+.addleg{display:block;width:100%;border:0;border-top:1px solid var(--edge);background:transparent;color:var(--accent);font:600 15px Figtree,sans-serif;padding:12px 14px;text-align:left;cursor:pointer}
+@media(max-width:720px){#fares::before{display:none}.legrow{grid-template-columns:1fr 1fr}.legrow .f:nth-child(3){grid-column:1/-1;border-left:0;border-top:1px solid var(--edge)}.legrow .f:nth-child(2){padding-right:34px}.legrow .rm{position:absolute;right:4px;top:6px;border:0;width:30px;height:30px;padding:0}}
 .js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
 .js .reveal.in{opacity:1;transform:none}
 .js section h2.reveal::after{width:0;transition:width .8s .3s ease}
@@ -177,6 +189,18 @@ nav{position:relative}
 .swap{position:absolute;z-index:3;top:15px;left:calc(23.21% - 17px);width:34px;height:34px;border-radius:50%;border:1.5px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer;display:grid;place-items:center;padding:0}
 .search .go{width:auto;min-width:210px;display:block;margin:14px 0 0 auto;padding:14px 28px;font-size:17px}
 @media(max-width:720px){.search .grid{grid-template-columns:1fr 1fr}.swap{left:calc(50% - 17px)}.search .grid>.f:nth-child(4){border-left:0}.search .grid>.f:nth-child(n+4){border-top:1px solid var(--edge)}.search .grid .pxw{grid-column:1/-1;border-left:0}.search .go{width:100%}.top .chk{border-left:0;padding-left:0}}
+
+header{padding-top:14px}
+nav{background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(143,190,255,.5);border-radius:18px;padding:10px 16px;margin-top:0;box-shadow:0 8px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.08);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.disc{margin-top:26px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#fff;border:1px solid #DCE8F6;border-radius:16px;padding:20px 22px}
+.disc h3{font-size:22px;margin-bottom:4px}
+.disc p{margin:0 0 12px;color:var(--muted)}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills button{border:1.5px solid #CFE0F5;background:#F4F8FD;color:#1D6FD8;border-radius:999px;padding:7px 14px;font:600 14px Figtree,sans-serif;cursor:pointer}
+.pills button:hover{background:#1D6FD8;color:#fff;border-color:#1D6FD8}
+.disc .btn{background:#1D6FD8;color:#fff}
+@media(max-width:640px){nav{padding:8px 10px;gap:5px}.brand{font-size:15px;gap:6px}.brand img{width:32px;height:32px}.locb{padding:6px 8px}.nav-links .btn{padding:7px 10px;font-size:14px;margin-left:5px}.burger{width:36px;height:34px;margin-left:5px}.disc .btn{width:100%}}
+.head{margin-bottom:16px}
 </style>
 <script>
 (function(){
@@ -188,7 +212,7 @@ nav{position:relative}
 ['Return','Hin- und Rückflug','Aller-retour'],['One-way','Einfach','Aller simple'],['Multi-city','Mehrere Städte','Multi-destinations'],['From','Von','De'],['To','Nach','Vers'],['Depart','Abflug','Départ'],['Return date','Rückflug','Retour'],['Travelers','Reisende','Voyageurs'],['Other legs','Weitere Strecken','Autres trajets'],
 ['City or airport','Stadt oder Flughafen','Ville ou aéroport'],['e.g. Prishtina to Istanbul on 12 Aug','z. B. Pristina nach Istanbul am 12. Aug.','p. ex. Pristina vers Istanbul le 12 août'],
 ['Adults','Erwachsene','Adultes'],['12 years and over','ab 12 Jahren','12 ans et plus'],['Children','Kinder','Enfants'],['2 to 11 years','2 bis 11 Jahre','2 à 11 ans'],['Infants','Babys','Bébés'],['Under 2 years, on an adult’s lap','Unter 2 Jahren, auf dem Schoß eines Erwachsenen','Moins de 2 ans, sur les genoux d’un adulte'],
-['Up to 9 adults and children per booking. Each adult can take one infant.','Bis zu 9 Erwachsene und Kinder pro Buchung. Jeder Erwachsene kann ein Baby mitnehmen.','Jusqu’à 9 adultes et enfants par réservation. Chaque adulte peut emmener un bébé.'],['Done','Fertig','OK'],['Economy','Economy','Économique'],['Premium economy','Premium Economy','Premium éco'],['Business','Business','Affaires'],['First class','First Class','Première classe'],['Soon','Bald','Bientôt'],['FAQ','Häufige Fragen','FAQ'],['Language','Sprache','Langue'],['Currency','Währung','Devise'],
+['Up to 9 adults and children per booking. Each adult can take one infant.','Bis zu 9 Erwachsene und Kinder pro Buchung. Jeder Erwachsene kann ein Baby mitnehmen.','Jusqu’à 9 adultes et enfants par réservation. Chaque adulte peut emmener un bébé.'],['Done','Fertig','OK'],['Economy','Economy','Économique'],['Premium economy','Premium Economy','Premium éco'],['Business','Business','Affaires'],['First class','First Class','Première classe'],['Soon','Bald','Bientôt'],['FAQ','Häufige Fragen','FAQ'],['Language','Sprache','Langue'],['Currency','Währung','Devise'],['Flight','Flug','Vol'],['Add another flight','Weiteren Flug hinzufügen','Ajouter un autre vol'],['Looking for somewhere new?','Lust auf ein neues Ziel?','Une nouvelle destination en tête ?'],['Pick a city to start your search, or type any destination.','Wählen Sie eine Stadt, um Ihre Suche zu starten, oder geben Sie ein beliebiges Ziel ein.','Choisissez une ville pour démarrer votre recherche ou saisissez n’importe quelle destination.'],['Explore new destinations','Neue Ziele entdecken','Découvrir de nouvelles destinations'],
 ['adult','Erwachsener','adulte'],['adults','Erwachsene','adultes'],['child','Kind','enfant'],['children','Kinder','enfants'],['infant','Baby','bébé'],['infants','Babys','bébés'],
 ['Direct flights only','Nur Direktflüge','Vols directs uniquement'],['Search flights','Flüge suchen','Rechercher des vols'],
 ['Popular routes','Beliebte Strecken','Itinéraires populaires'],['Sample fares, shown in your currency for reference. Payment is always taken in euro, so the final amount on your invoice is the EUR price.','Beispieltarife, zur Orientierung in Ihrer Währung angezeigt. Die Zahlung erfolgt immer in Euro, der Endbetrag auf Ihrer Rechnung ist also der EUR-Preis.','Tarifs d’exemple, affichés dans votre devise à titre indicatif. Le paiement s’effectue toujours en euros ; le montant final sur votre facture est donc le prix en EUR.'],
@@ -219,6 +243,8 @@ nav{position:relative}
   function T(x){var d=D[lang];return(d&&d[x])||x}
   T.pax=function(x){return x.replace(/adults|adult|children|child|infants|infant/g,function(w){return T(w)})};
   window.T=T;
+  try{if('scrollRestoration' in history)history.scrollRestoration='manual'}catch(e){}
+  window.addEventListener('load',function(){if(!location.hash)window.scrollTo(0,0)});
   function apply(){
     document.documentElement.lang=lang;
     var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,null),n,list=[];
@@ -306,7 +332,7 @@ nav{position:relative}
           </div>
         </div>
         
-        <label class="f" id="mcw">Other legs<input id="mc" placeholder="e.g. Prishtina to Istanbul on 12 Aug"></label>
+        <div id="mcw"><div id="legrows"></div><button type="button" class="addleg" id="addleg">+ Add another flight</button></div>
       </div>
       <datalist id="cities"><option value="Zurich (ZRH)"><option value="Basel (BSL)"><option value="Geneva (GVA)"><option value="Munich (MUC)"><option value="Stuttgart (STR)"><option value="Düsseldorf (DUS)"><option value="Prishtina (PRN)"><option value="Tirana (TIA)"><option value="Skopje (SKP)"><option value="Belgrade (BEG)"><option value="Vienna (VIE)"><option value="Istanbul (IST)"><option value="Barcelona (BCN)"><option value="London (LON)"><option value="Paris (PAR)"><option value="Dubai (DXB)"><option value="New York (NYC)"></datalist>
       <button class="btn go" type="submit">Search flights</button>
@@ -329,9 +355,16 @@ nav{position:relative}
       <p class="sub">Sample fares, shown in your currency for reference. Payment is always taken in euro, so the final amount on your invoice is the EUR price.</p></div>
       <label class="cur">Show prices in <select id="cur" aria-label="Currency"><option>EUR</option><option>CHF</option><option>USD</option><option>GBP</option></select></label>
     </div>
-    <div class="chips" role="group" aria-label="Filter by stops"><button type="button" class="chip" data-s="all" aria-pressed="true">All flights</button><button type="button" class="chip" data-s="0" aria-pressed="false">Direct</button><button type="button" class="chip" data-s="1" aria-pressed="false">1 stop</button></div>
     <div class="board" id="board"></div>
     <p class="note" id="rn"></p>
+    <div class="disc">
+      <div>
+        <h3>Looking for somewhere new?</h3>
+        <p>Pick a city to start your search, or type any destination.</p>
+        <div class="pills"><button type="button" data-to="Barcelona (BCN)">Barcelona</button><button type="button" data-to="Paris (PAR)">Paris</button><button type="button" data-to="London (LON)">London</button><button type="button" data-to="Vienna (VIE)">Vienna</button><button type="button" data-to="Tirana (TIA)">Tirana</button><button type="button" data-to="New York (NYC)">New York</button></div>
+      </div>
+      <button type="button" class="btn" id="explore">Explore new destinations</button>
+    </div>
   </div>
 </section>
 
@@ -425,14 +458,10 @@ nav{position:relative}
   // SAMPLE DATA. With the real API, build this list from the search response:
   // one entry per offer, stops = segments.length - 1, via = connection airport, dur = total travel time, eur = total price in EUR.
   var ROUTES=[
-    {from:"Zurich",to:"Prishtina",codes:"ZRH – PRN",stops:0,via:"",dur:"2h 10m",eur:189,was:219},
-    {from:"Munich",to:"Istanbul",codes:"MUC – IST",stops:0,via:"",dur:"2h 55m",eur:149,was:0},
-    {from:"Geneva",to:"Tirana",codes:"GVA – TIA",stops:1,via:"Zurich",dur:"4h 30m",eur:139,was:175},
-    {from:"Basel",to:"Barcelona",codes:"BSL – BCN",stops:0,via:"",dur:"1h 35m",eur:89,was:0},
-    {from:"Stuttgart",to:"Skopje",codes:"STR – SKP",stops:0,via:"",dur:"2h 05m",eur:129,was:0},
-    {from:"Düsseldorf",to:"Belgrade",codes:"DUS – BEG",stops:1,via:"Vienna",dur:"4h 15m",eur:119,was:0},
-    {from:"Zurich",to:"Dubai",codes:"ZRH – DXB",stops:0,via:"",dur:"6h 15m",eur:429,was:489},
-    {from:"Munich",to:"New York",codes:"MUC – NYC",stops:1,via:"London",dur:"11h 20m",eur:559,was:0}
+    {from:"Prishtina",to:"Zurich",codes:"PRN – ZRH",stops:0,via:"",dur:"2h 10m",eur:189,was:219},
+    {from:"Prishtina",to:"Munich",codes:"PRN – MUC",stops:0,via:"",dur:"1h 55m",eur:159,was:0},
+    {from:"Prishtina",to:"Istanbul",codes:"PRN – IST",stops:0,via:"",dur:"1h 50m",eur:129,was:0},
+    {from:"Prishtina",to:"Dubai",codes:"PRN – DXB",stops:1,via:"Istanbul",dur:"7h 40m",eur:389,was:459}
   ];
   var fl='all';
   var sel=document.getElementById('cur'),board=document.getElementById('board'),rn=document.getElementById('rn');
@@ -461,7 +490,7 @@ nav{position:relative}
   }
   sel.value=detect();sel.addEventListener('change',function(){render();renderResults()});
   document.addEventListener('langchange',function(){render();renderResults()});
-  document.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
+  document.querySelectorAll('.chips .chip').forEach(function(b){b.addEventListener('click',function(){
     fl=b.dataset.s;document.querySelectorAll('.chip').forEach(function(x){x.setAttribute('aria-pressed',x===b)});render();
   })});
   render();
@@ -472,8 +501,8 @@ nav{position:relative}
   // DEMO SEARCH. Replace the body of runSearch with the real Travelport API call; keep the offer shape: {stops,via,t,dur,eur}.
   function runSearch(){
     var g=function(i){return document.getElementById(i).value};
-    var p={a:g('from'),b:g('to'),dep:g('dep'),ret:g('ret'),pax:g('pax')+' · '+g('cabin'),trip:f.trip.value,stops:document.getElementById('direct').checked?1:0};
-    var base=70+hash((p.a+p.b).toLowerCase())%240,m=p.trip==='Return'?1.8:1;
+    var p={a:g('from'),b:g('to'),dep:g('dep'),ret:g('ret'),pax:g('pax')+' · '+g('cabin'),trip:f.trip.value,legs:(f.trip.value==='Multi-city'&&window.__legs?window.__legs():[]),stops:document.getElementById('direct').checked?1:0};
+    var base=70+hash((p.a+p.b).toLowerCase())%240,m=p.trip==='Return'?1.8:p.trip==='Multi-city'?(p.legs.length+1)*0.95:1;
     var all=[{stops:0,via:'',t:'07:10',dur:'2h 20m',eur:Math.round((base+45)*m)},{stops:1,via:'Vienna',t:'11:35',dur:'4h 40m',eur:Math.round(base*m)},{stops:1,via:'Istanbul',t:'15:20',dur:'6h 05m',eur:Math.round((base-12)*m)}];
     var o=all.filter(function(x){return p.stops===1?x.stops===0:true}).sort(function(x,y){return x.eur-y.eur});
     last={p:p,o:o};renderResults();
@@ -482,7 +511,7 @@ nav{position:relative}
   function renderResults(){
     if(!last)return;
     var c=sel.value,p=last.p,h='';
-    document.getElementById('rt').textContent=T('Flights from')+' '+p.a+' '+T('to')+' '+p.b;
+    document.getElementById('rt').textContent=p.trip==='Multi-city'?T('Multi-city')+': '+p.a+' → '+p.b+p.legs.map(function(l){return' · '+l.a+' → '+l.b}).join(''):T('Flights from')+' '+p.a+' '+T('to')+' '+p.b;
     document.getElementById('rnote').textContent=T('Sample results for layout only. Live fares appear here once the Travelport connection is live.')+' '+T('Price per passenger')+', '+T(p.trip)+(p.dep?', '+T('departing')+' '+p.dep:'')+'.';
     last.o.forEach(function(x,i){
       h+='<div class="row"><div class="route">'+x.t+' · '+(x.stops?x.stops+' '+T('stop via')+' '+x.via:T('Direct'))+(i===0?'<span class="tag">'+T('Cheapest')+'</span>':'')+'<small>'+x.dur+' '+T('total travel time')+'</small></div>'+
@@ -494,7 +523,7 @@ nav{position:relative}
   document.getElementById('rb').addEventListener('click',function(e){
     var a=e.target.closest('.ask');if(!a||!last)return;e.preventDefault();
     var x=last.o[a.dataset.b],p=last.p;
-    window.open('https://wa.me/38349244038?text='+encodeURIComponent('Hello BUNAVIA, I want to book:\n'+p.a+' to '+p.b+'\n'+p.trip+', depart '+p.dep+(p.trip==='Return'?', return '+p.ret:'')+'\n'+(x.stops?x.stops+' stop via '+x.via:'Direct')+', '+x.t+'\nTravelers: '+p.pax+'\nPrice: EUR '+x.eur),'_blank');
+    window.open('https://wa.me/38349244038?text='+encodeURIComponent('Hello BUNAVIA, I want to book:\n'+p.a+' to '+p.b+'\n'+p.trip+', depart '+p.dep+(p.trip==='Return'?', return '+p.ret:'')+(p.legs.length?'\nExtra flights: '+p.legs.map(function(l){return l.a+' to '+l.b+' on '+l.d}).join('; '):'')+'\n'+(x.stops?x.stops+' stop via '+x.via:'Direct')+', '+x.t+'\nTravelers: '+p.pax+'\nPrice: EUR '+x.eur),'_blank');
   });
   board.addEventListener('click',function(e){
     var a=e.target.closest('.ask');if(!a)return;e.preventDefault();
@@ -504,7 +533,7 @@ nav{position:relative}
     d.setDate(d.getDate()+7);document.getElementById('ret').value=d.toISOString().slice(0,10);
     runSearch();
   });
-  f.addEventListener('change',function(){var t=f.trip.value;retw.classList.toggle('off',t==='One-way');document.getElementById('ret').disabled=t==='One-way';document.getElementById('mcw').style.display=t==='Multi-city'?'flex':'none'});
+  f.addEventListener('change',function(){var t=f.trip.value;retw.classList.toggle('off',t!=='Return');document.getElementById('ret').disabled=t!=='Return'});
   var d=document.getElementById('dep'),r=document.getElementById('ret');
   d.addEventListener('change',function(){r.min=d.value});
   function body(){
@@ -641,6 +670,56 @@ nav{position:relative}
       if(!again&&j&&(j.country==='CH'||j.country==='LI')&&cur.value!=='CHF'){auto=true;cur.value='CHF';cur.dispatchEvent(new Event('change'));auto=false}
     }).catch(function(){});
   }
+})();
+</script>
+<script>
+(function(){
+  function $(i){return document.getElementById(i)}
+  var f=$('q'),box=$('mcw'),rows=$('legrows'),addb=$('addleg'),legs=[];
+  function on(){return f.trip.value==='Multi-city'}
+  function plus(d,n){if(!d)return'';var x=new Date(d+'T00:00:00');x.setDate(x.getDate()+n);return x.toISOString().slice(0,10)}
+  function cell(label,k,i,type){
+    var lb=document.createElement('label');lb.className='f';lb.appendChild(document.createTextNode(label));
+    var inp=document.createElement('input');inp.type=type;inp.value=legs[i][k];inp.required=true;inp.disabled=!on();
+    if(type==='text'){inp.setAttribute('list','cities');inp.placeholder=T('City or airport')}else{inp.min=$('dep').value}
+    inp.addEventListener('input',function(){legs[i][k]=inp.value;if(k==='a')legs[i].ea=true;chain()});
+    lb.appendChild(inp);return lb;
+  }
+  function render(){
+    rows.innerHTML='';
+    legs.forEach(function(l,i){
+      var r=document.createElement('div');r.className='legrow';
+      r.appendChild(cell(T('Flight')+' '+(i+2)+' · '+T('From'),'a',i,'text'));
+      r.appendChild(cell(T('To'),'b',i,'text'));
+      r.appendChild(cell(T('Depart'),'d',i,'date'));
+      var x=document.createElement('button');x.type='button';x.className='rm';x.setAttribute('aria-label','Remove flight');x.textContent='×';
+      x.addEventListener('click',function(){legs.splice(i,1);render()});
+      r.appendChild(x);rows.appendChild(r);
+    });
+    chain();
+    addb.textContent='+ '+T('Add another flight');
+    addb.style.display=legs.length<4?'block':'none';
+  }
+  function chain(){legs.forEach(function(l,i){if(l.ea)return;var v=i?legs[i-1].b:$('to').value;l.a=v;var r=rows.children[i];if(r){var inp=r.querySelectorAll('input')[0];if(inp&&inp.value!==v)inp.value=v}})}
+  function add(){var p=legs.length?legs[legs.length-1]:{b:$('to').value,d:$('dep').value};legs.push({a:p.b||'',b:'',d:plus(p.d,3)});render()}
+  function mode(){box.style.display=on()?'block':'none';if(on()&&!legs.length)add();else render()}
+  addb.addEventListener('click',add);
+  $('to').addEventListener('input',chain);
+  f.addEventListener('change',function(e){if(e.target.name==='trip')mode()});
+  document.addEventListener('langchange',render);
+  window.__legs=function(){return legs.filter(function(l){return l.a&&l.b}).map(function(l){return{a:l.a,b:l.b,d:l.d}})};
+  mode();
+})();
+</script>
+<script>
+(function(){
+  function go(v){
+    if(v){document.getElementById('to').value=v;document.getElementById('to').dispatchEvent(new Event('input'))}
+    document.getElementById('q').scrollIntoView({behavior:'smooth',block:'center'});
+    setTimeout(function(){var a=document.getElementById('from');(a.value?document.getElementById('dep'):a).focus({preventScroll:true})},500);
+  }
+  document.querySelectorAll('.pills button').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.to)})});
+  document.getElementById('explore').addEventListener('click',function(){go('')});
 })();
 </script>
 </body>
