@@ -1458,12 +1458,17 @@ dialog.bx .f input{font:400 16px Roboto,system-ui,sans-serif;padding:10px 12px;b
   var dd=document.getElementById('dep'),rr=document.getElementById('ret'),t=new Date();
   function iso(x){return isoL(x)}
   dd.min=iso(t);rr.min=iso(t);
-  if(!dd.value){t.setDate(t.getDate()+14);dd.value=iso(t);t.setDate(t.getDate()+7);rr.value=iso(t);rr.min=dd.value}
+  // The search opens with today's date in Depart and Return. The customer changes them as needed.
+  if(!dd.value){dd.value=iso(t);rr.value=iso(t);rr.min=dd.value}
   function guard(){var today=isoL();dd.min=today;rr.min=dd.value&&dd.value>today?dd.value:today;
     if(dd.value&&dd.value<today)dd.value=today;if(rr.value&&rr.value<dd.value)rr.value=dd.value;
     document.querySelectorAll('.legrow input[type=date]').forEach(function(x){if(!x.min||x.min<today)x.min=today})}
-  dd.addEventListener('focus',guard);rr.addEventListener('focus',guard);dd.addEventListener('change',guard);
+  ['focus','pointerdown','click'].forEach(function(ev){dd.addEventListener(ev,guard);rr.addEventListener(ev,guard)});
+  dd.addEventListener('change',guard);rr.addEventListener('change',guard);
   document.addEventListener('visibilitychange',function(){if(!document.hidden)guard()});
+  window.addEventListener('pageshow',guard);window.addEventListener('focus',guard);
+  // At midnight the day that has just ended is closed in the calendar automatically
+  (function midnight(){var n=new Date(),m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,5);setTimeout(function(){guard();midnight()},m-n)})();
   window.__guardDates=guard;guard();
 })();
 </script>
