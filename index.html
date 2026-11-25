@@ -2222,7 +2222,7 @@ dialog.bx .f input{font:400 16px Roboto,system-ui,sans-serif;padding:10px 12px;b
   // Loads the official logo files from the "img" folder. Until a file exists, the name stays as text.
   document.querySelectorAll('[data-logo]').forEach(function(box){
     var img=box.querySelector('img');if(!img)return;
-    var key=box.dataset.logo,tries=['img/'+key+'.svg','img/'+key+'.png','img/'+key+'.jpg','img/'+key+'.webp'],k=0;
+    var key=box.dataset.logo,tries=['img/'+key+'.svg','img/'+key+'.png',key+'.svg',key+'.png','img/'+key+'.jpg','img/'+key+'.webp',key+'.jpg',key+'.webp'],k=0;
     img.onload=function(){img.hidden=false;box.classList.add('has');var t=box.querySelector('.lgt');if(t)t.hidden=true};
     img.onerror=function(){k++;if(k<tries.length)img.src=tries[k]};
     img.src=tries[0];
