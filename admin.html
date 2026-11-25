@@ -116,6 +116,19 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   </div>
 </dialog>
 
+<dialog id="md" aria-labelledby="mdt" style="width:min(560px,calc(100% - 16px))">
+  <div class="dh"><h2 id="mdt">Shkruaj klientit</h2><button class="btn gh sm" type="button" data-x>Mbyll</button></div>
+  <form id="mdf" novalidate style="padding:16px 18px">
+    <p id="mdto" style="margin:0 0 6px;color:#4C5E73;font-size:14px"></p>
+    <div id="mdprice" hidden><label class="f" for="mpr">Çmimi për gjithë grupin (EUR)</label><input class="i" id="mpr" type="number" min="1" step="0.01" inputmode="decimal"></div>
+    <label class="f" for="msu">Tema (opsionale)</label><input class="i" id="msu" maxlength="150">
+    <label class="f" for="mms">Mesazhi</label><textarea class="i" id="mms" rows="7" maxlength="5000" required></textarea>
+    <div id="mdst" hidden><label class="f" for="mst">Pas dërgimit, statusi i kërkesës</label><select class="i" id="mst"><option value="">Mos e ndrysho</option><option value="in_progress">Në punë</option><option value="done" selected>E kryer</option><option value="rejected">Refuzuar</option></select></div>
+    <p style="font-size:13px;color:#4C5E73;margin:10px 0 0">Emaili dërgohet nga info@bunavia.com, në emrin tuaj, me kopje te info@bunavia.com. Klienti mund të përgjigjet direkt.</p>
+    <button class="btn" type="submit" style="margin-top:12px;width:100%">Dërgo emailin</button>
+    <p class="msg" id="mdmsg" role="status"></p>
+  </form>
+</dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
@@ -137,17 +150,21 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
       text:function(b){return [b.reference,b.contact_email,b.contact_phone,JSON.stringify(b.passengers),b.airline_pnr].join(' ')},open:openBooking},
     changes:{t:'Ndryshime & anulime',table:'change_requests',order:'created_at',flt:[['open','Të hapura'],['','Të gjitha'],['new','E re'],['in_progress','Në punë'],['done','E kryer'],['rejected','Refuzuar']],fk:'status',
       cols:['Referenca','Krijuar','Lloji','Mesazhi','Statusi','Veprimi'],
-      row:function(c){return ['<b class="mono">'+esc(c.reference)+'</b>',dt(c.created_at),esc(KIND[c.kind]||c.kind),esc(c.message),badge(c.status),statusSel('change_requests',c.id,c.status,['new','in_progress','done','rejected'])]},
+      row:function(c){return ['<b class="mono">'+esc(c.reference)+'</b>',dt(c.created_at),esc(KIND[c.kind]||c.kind),esc(c.message),badge(c.status),statusSel('change_requests',c.id,c.status,['new','in_progress','done','rejected'])+'<br><button class="btn sm" type="button" data-msg="change" data-id="'+esc(c.id)+'" style="margin-top:6px">Përgjigju me email</button>']},
       text:function(c){return c.reference+' '+c.message}},
     groups:{t:'Grupe 10+',table:'group_requests',order:'created_at',flt:[['','Të gjitha'],['new','E re'],['offer_sent','Oferta u dërgua'],['booked','U rezervua'],['closed','Mbyllur']],fk:'status',
-      cols:['Krijuar','Emri','Linja','Datat','Udhëtarë','Kontakti','Shënime','Statusi'],
-      row:function(g){return [dt(g.created_at),esc(g.name)+(g.occasion?'<br><small>'+esc(g.occasion)+'</small>':''),esc(g.origin+' → '+g.destination),esc(g.depart_date+(g.return_date?' / '+g.return_date:'')),g.travellers,esc(g.email)+'<br><a href="https://wa.me/'+esc(String(g.phone).replace(/\D/g,''))+'" target="_blank" rel="noopener">'+esc(g.phone)+'</a>',esc(g.notes||''),statusSel('group_requests',g.id,g.status,['new','offer_sent','booked','closed'])]},
+      cols:['Krijuar','Emri','Linja','Datat','Udhëtarë','Kontakti','Shënime','Statusi','Oferta'],
+      row:function(g){return [dt(g.created_at),esc(g.name)+(g.occasion?'<br><small>'+esc(g.occasion)+'</small>':''),esc(g.origin+' → '+g.destination),esc(g.depart_date+(g.return_date?' / '+g.return_date:'')),g.travellers,esc(g.email)+'<br><a href="https://wa.me/'+esc(String(g.phone).replace(/\D/g,''))+'" target="_blank" rel="noopener">'+esc(g.phone)+'</a>',esc(g.notes||''),statusSel('group_requests',g.id,g.status,['new','offer_sent','booked','closed']),(g.offer_eur!=null?'<b>'+eur(g.offer_eur)+'</b><br><small>'+dt(g.offer_sent_at)+'</small><br>':'')+'<button class="btn sm" type="button" data-msg="group" data-id="'+esc(g.id)+'">'+(g.offer_eur!=null?'Ofertë e re':'Dërgo ofertë')+'</button> <button class="btn gh sm" type="button" data-msg="groupmsg" data-id="'+esc(g.id)+'">Mesazh</button>']},
       text:function(g){return [g.name,g.email,g.phone,g.origin,g.destination,g.occasion].join(' ')}},
     alerts:{t:'Njoftime për çmime',table:'price_alerts',order:'created_at',flt:[['act','Aktive'],['','Të gjitha']],fk:'active',
       cols:['Krijuar','Email','Linja','Datat','Pasagjerë','Çmimi kur u krijua','Aktive'],
       row:function(a){return [dt(a.created_at),esc(a.email),esc(a.origin+' → '+a.destination),esc(a.depart_date+(a.return_date?' / '+a.return_date:'')),(a.adults+a.children+a.infants),a.price_eur!=null?eur(a.price_eur):'',
         '<label><input type="checkbox" data-alert="'+a.id+'"'+(a.active?' checked':'')+'> aktive</label>']},
       text:function(a){return a.email+' '+a.origin+' '+a.destination}},
+    emails:{t:'Emailet e dërguara',table:'email_log',order:'created_at',flt:[['','Të gjitha'],['message','Mesazh'],['reply','Përgjigje'],['offer','Ofertë'],['reminder','Kujtesë']],fk:'kind',
+      cols:['Dërguar','Lloji','Për','Tema','Nga','OK'],
+      row:function(e){var K={message:'Mesazh',reply:'Përgjigje',offer:'Ofertë',reminder:'Kujtesë check-in'};return [dt(e.created_at),esc(K[e.kind]||e.kind),esc(e.to_email),esc(e.subject)+(e.body?'<br><small style="color:#4C5E73">'+esc(e.body.slice(0,160))+'</small>':''),esc(e.agent_name||''),e.ok?'✔':'✖']},
+      text:function(e){return [e.to_email,e.subject,e.body,e.agent_name].join(' ')}},
     club:{t:'BUNAVIA Club',table:'club_waitlist',order:'created_at',cols:['Regjistruar','Email','Gjuha'],row:function(c){return [dt(c.created_at),esc(c.email),esc(c.language||'')]},text:function(c){return c.email}},
     news:{t:'Newsletter',table:'newsletter_signups',order:'created_at',cols:['Regjistruar','Email','Gjuha'],row:function(c){return [dt(c.created_at),esc(c.email),esc(c.language||'')]},text:function(c){return c.email}},
     agencies:{t:'Agjenci partnere',table:'agency_requests',order:'created_at',cols:['Krijuar','Kompania','Qyteti','Personi','Kontakti','IATA','Lloji','Mesazhi'],
@@ -205,6 +222,9 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
     var a='<h3>Veprime</h3>';
     if(b.status==='ticketed'&&b.ticket_token)a+='<a class="btn gh sm" target="_blank" rel="noopener" href="eticket.html?t='+esc(b.ticket_token)+'">Hap e-ticket-in</a> ';
     if(b.eticket_sent_at)a+='<p style="font-size:13px;color:#1F7A4D">E-ticket u dërgua: '+dt(b.eticket_sent_at)+'</p><button class="btn gh sm" type="button" id="resend">Dërgo e-ticket-in përsëri</button>';
+    a+='<div style="margin-top:12px"><button class="btn sm" type="button" data-msg="booking" data-id="'+esc(b.id)+'">✉ Shkruaj klientit</button></div>';
+    var em=(data.emails||[]).filter(function(e){return e.booking_id===b.id});
+    if(em.length)a+='<h3 style="margin-top:12px">Emailet e dërguara</h3>'+em.map(function(e){return '<p style="font-size:13px;margin:4px 0">'+(e.ok?'✔':'✖')+' <b>'+esc(e.subject)+'</b><br><small style="color:#4C5E73">'+dt(e.created_at)+' · '+esc(e.agent_name||'')+'</small></p>'}).join('');
     var ch=(data.changes||[]).filter(function(c){return c.booking_id===b.id});
     if(ch.length)a+='<h3 style="margin-top:12px">Kërkesat e klientit</h3>'+ch.map(function(c){return '<p style="font-size:13px;margin:4px 0">'+badge(c.status)+' <b>'+esc(KIND[c.kind]||c.kind)+'</b>: '+esc(c.message)+'</p>'}).join('');
     $('bda').innerHTML=a;$('bmsg').textContent='';$('bmsg').className='msg';
@@ -230,11 +250,42 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   });
   document.querySelectorAll('dialog').forEach(function(d){d.addEventListener('click',function(e){if(e.target===d||e.target.closest('[data-x]'))d.close()})});
 
+  // ---------- emails from the panel (function bunavia-agent) ----------
+  var curM=null;
+  function openMsg(kind,id){
+    var target=kind==='groupmsg'?'group':kind,rec=null,who='';
+    if(target==='booking'){rec=(data.bookings||[]).filter(function(x){return String(x.id)===String(id)})[0];who=rec&&(rec.contact_email+' · '+rec.reference)}
+    if(target==='change'){rec=(data.changes||[]).filter(function(x){return String(x.id)===String(id)})[0];var bk=rec&&(data.bookings||[]).filter(function(x){return x.id===rec.booking_id})[0];who=rec&&((bk?bk.contact_email+' · ':'')+rec.reference+' · '+(KIND[rec.kind]||rec.kind))}
+    if(target==='group'){rec=(data.groups||[]).filter(function(x){return String(x.id)===String(id)})[0];who=rec&&(rec.email+' · '+rec.origin+' → '+rec.destination+' · '+rec.travellers+' udhëtarë')}
+    if(!rec)return;
+    curM={target:target,id:id,offer:kind==='group'};
+    $('mdt').textContent=kind==='group'?'Dërgo ofertë për grupin':kind==='change'?'Përgjigju kërkesës':'Shkruaj klientit';
+    $('mdto').textContent='Për: '+who;$('mdprice').hidden=!curM.offer;$('mdst').hidden=target!=='change';
+    $('mpr').value=curM.offer&&rec.offer_eur!=null?rec.offer_eur:'';$('msu').value='';$('mms').value='';$('mdmsg').textContent='';$('mdmsg').className='msg';
+    $('mms').placeholder=curM.offer?'P.sh.: Për grupin tuaj kemi gjetur fluturime direkte me Swiss. Çmimi përfshin bagazhin 23 kg. Oferta vlen 3 ditë.':'Shkruani mesazhin për klientin…';
+    if($('bd').open)$('bd').close();$('md').showModal();setTimeout(function(){(curM.offer?$('mpr'):$('mms')).focus()},50);
+  }
+  document.addEventListener('click',function(e){var b=e.target.closest('[data-msg]');if(b){e.preventDefault();openMsg(b.dataset.msg,b.dataset.id)}});
+  $('mdf').addEventListener('submit',function(e){
+    e.preventDefault();var m=$('mdmsg'),btn=this.querySelector('button[type=submit]'),msg=$('mms').value.trim();
+    if(curM.offer&&!(Number($('mpr').value)>0)){m.className='msg err';m.textContent='Shkruani çmimin e ofertës.';$('mpr').focus();return}
+    if(msg.length<2){m.className='msg err';m.textContent='Shkruani mesazhin.';$('mms').focus();return}
+    var body={action:'message',target:curM.target,id:curM.id,subject:$('msu').value.trim(),message:msg};
+    if(curM.offer)body.price_eur=Number($('mpr').value);
+    if(curM.target==='change'&&$('mst').value)body.status=$('mst').value;
+    btn.disabled=true;m.className='msg';m.textContent='Duke dërguar…';
+    sb.functions.invoke('bunavia-agent',{body:body}).then(function(r){
+      btn.disabled=false;
+      if(r.error){var t=String(r.error.message||r.error);m.className='msg err';m.textContent=/not found|404|Failed to send/i.test(t)?'Funksioni bunavia-agent nuk është vendosur ende te Supabase.':'Emaili nuk u dërgua: '+t;return}
+      m.className='msg ok';m.textContent='✔ Emaili u dërgua te '+(r.data&&r.data.to||'klienti')+'.';load();setTimeout(function(){if($('md').open)$('md').close()},1500);
+    }).catch(function(x){btn.disabled=false;m.className='msg err';m.textContent='Emaili nuk u dërgua.'});
+  });
+
   // ---------- list events ----------
   $('tabs').addEventListener('click',function(e){var b=e.target.closest('[data-tab]');if(b){$('q').value='';setTab(b.dataset.tab)}});
   document.querySelector('.kpis').addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b){$('q').value='';setTab(b.dataset.go,b.dataset.f)}});
   $('q').addEventListener('input',render);$('flt').addEventListener('change',render);
-  $('tb').addEventListener('click',function(e){if(e.target.closest('select,input,a,label'))return;var tr=e.target.closest('tr[data-i]');if(tr)V[cur].open(data[cur][+tr.dataset.i])});
+  $('tb').addEventListener('click',function(e){if(e.target.closest('select,input,a,label,button'))return;var tr=e.target.closest('tr[data-i]');if(tr)V[cur].open(data[cur][+tr.dataset.i])});
   $('tb').addEventListener('keydown',function(e){if(e.key==='Enter'){var tr=e.target.closest('tr[data-i]');if(tr)V[cur].open(data[cur][+tr.dataset.i])}});
   $('tb').addEventListener('change',function(e){
     var s=e.target.closest('[data-st]'),a=e.target.closest('[data-alert]');
