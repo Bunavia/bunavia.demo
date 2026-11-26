@@ -146,6 +146,7 @@ section h2::after{content:"";display:block;width:44px;height:4px;border-radius:4
 .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 0;margin:22px 0 14px}
 .flinks a{color:#E6E9EE;padding:2px 16px;border-left:1px solid rgba(230,233,238,.25)}
 .flinks a:first-child{border-left:0}
+@media(max-width:640px){.flinks{display:grid;grid-template-columns:1fr 1fr;gap:10px 8px;max-width:420px;margin-left:auto;margin-right:auto}.flinks a{border-left:0;padding:4px 6px;text-align:center}}
 .foot p{max-width:900px;margin:0 auto;line-height:1.9}
 .foot p a{color:#E6E9EE}
 .path{display:flex;align-items:flex-start;list-style:none;padding:0;margin:26px 0 0;max-width:440px}
@@ -368,7 +369,8 @@ section h2{font-weight:700}
 .ckref{font-size:20px;letter-spacing:.06em;color:#0F1C2E}
 .ckok .btns{justify-content:center;margin-top:8px}
 .abk{border-top:1px solid #DCE8F6;padding:8px 0;font-size:14px}.abk:first-child{border-top:0}.abk span{color:#4C5E73}
-.fpay{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;margin:18px 0 0}
+.fpay{margin:20px 0 0;text-align:center}.fpay-r{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px}.fpay-r .pchip{min-height:34px}
+.fsoc,.fpay,.fpart{max-width:640px;margin-left:auto;margin-right:auto}
 .fpl{font-size:13px;color:#B8C4D2;margin-right:4px}
 .pchip{background:#fff;color:#0F1C2E;font:700 13px Roboto,system-ui,sans-serif;border-radius:6px;padding:5px 10px}
 @media(max-width:520px){.rg3{grid-template-columns:1fr 1fr}.ck-h h2{font-size:19px}#chkf{padding:18px}.ck-h{margin:-18px -18px 0;padding:14px 18px 10px;top:-18px}}
@@ -1127,8 +1129,7 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
   <div class="wrap">
     <a class="fbrand" href="#top" aria-label="BUNAVIA home"><img id="flogo" alt=""><span>BUNAVIA</span></a>
     <div class="fsoc" id="fsoc" hidden><p class="fp-t" id="fst">Follow us</p><div class="fs-row" id="fsrow" role="list" aria-labelledby="fst"></div></div>
-    <div class="fpay" aria-label="Payment methods"><span class="fpl">Payment methods</span><span class="pchip" data-logo="visa"><img alt="Visa" hidden><span class="lgt">Visa</span></span><span class="pchip" data-logo="mastercard"><img alt="Mastercard" hidden><span class="lgt">Mastercard</span></span><span class="pchip" data-logo="apple-pay"><img alt="Apple Pay" hidden><span class="lgt">Apple Pay</span></span><span class="pchip" data-logo="google-pay"><img alt="Google Pay" hidden><span class="lgt">Google Pay</span></span></div>
-    <button type="button" class="finst" data-install hidden><img src="apple-touch-icon.png" alt="" width="28" height="28"><span><small>Free</small>Install the BUNAVIA app</span></button>
+    <div class="fpay"><p class="fp-t" id="fpyt">Payment methods</p><div class="fpay-r" role="list" aria-labelledby="fpyt"><span class="pchip" data-logo="visa"><img alt="Visa" hidden><span class="lgt">Visa</span></span><span class="pchip" data-logo="mastercard"><img alt="Mastercard" hidden><span class="lgt">Mastercard</span></span><span class="pchip" data-logo="apple-pay"><img alt="Apple Pay" hidden><span class="lgt">Apple Pay</span></span><span class="pchip" data-logo="google-pay"><img alt="Google Pay" hidden><span class="lgt">Google Pay</span></span></div></div>
     <p class="flic" id="flic" hidden></p>
     <div class="fpart" aria-labelledby="fpt">
       <p class="fp-t" id="fpt">Our partners</p>
