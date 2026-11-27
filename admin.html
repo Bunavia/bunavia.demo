@@ -256,6 +256,9 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
     e.preventDefault();var st=$('fst').value,pnr=$('fpnr').value.trim().toUpperCase(),tk=$('ftk').value.split(/[\n,;]+/).map(function(x){return x.trim()}).filter(Boolean),m=$('bmsg');
     if(st==='ticketed'){
       if(!pnr){m.className='msg err';m.textContent='Shkruani PNR-në para se ta shënoni si "Bileta e lëshuar".';$('fpnr').focus();return}
+      if(!/^[A-Z0-9]{5,8}$/.test(pnr)){m.className='msg err';m.textContent='PNR-ja duhet të ketë 5 deri në 8 shkronja ose numra, pa hapësira (p.sh. 6XK2PL).';$('fpnr').focus();return}
+      var badTk=tk.filter(function(x){return !/^\d{3}[- ]?\d{10}$/.test(x)});
+      if(badTk.length){m.className='msg err';m.textContent='Numri i biletës duhet të ketë 13 shifra, p.sh. 724-2401234567. Nuk është i saktë: '+badTk.join(', ');$('ftk').focus();return}
       if(tk.length!==(curB.passengers||[]).length){m.className='msg err';m.textContent='Duhet një numër bilete për çdo pasagjer ('+(curB.passengers||[]).length+'). Tani janë '+tk.length+'.';$('ftk').focus();return}
       if(curB.status!=='ticketed'&&!confirm('Pas ruajtjes klientit i dërgohet automatikisht e-ticket-i me email. Vazhdo?'))return;
     }

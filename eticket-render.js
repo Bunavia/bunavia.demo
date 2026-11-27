@@ -288,7 +288,7 @@ var BunaviaETicket = (function () {
     out.push('', t.bagTitle + ': ' + bagLine(trip.extras || {}, t));
     out.push('', t.total + ': ' + money(b.total_eur));
     if (o && o.link) out.push('', t.view + ': ' + o.link);
-    out.push('', t.help + ' Tel. +383 46 100 031 · info@bunavia.com');
+    out.push('', t.help + ' ' + t.helpTxt, 'Tel. +383 46 100 031 · info@bunavia.com');
     return out.join('\n');
   }
 
