@@ -8,11 +8,11 @@ var BunaviaETicket = (function () {
       confirmed: 'Booking confirmed – your ticket is issued', ref: 'BUNAVIA reference', pnr: 'Airline booking code', issued: 'Issued on',
       hello: 'Hello', intro: 'Thank you for booking with BUNAVIA. Your ticket is issued. Please keep this e-ticket with you when you travel.',
       out: 'Outbound', ret: 'Return', flight: 'Flight', leg: 'Flight', dur: 'Duration', direct: 'Direct', change: 'Change in', layover: 'waiting time',
-      bagTitle: 'Baggage allowance', bagSub: 'Per passenger (adults and children), on every flight of this booking.', bagSmall: 'Small bag under the seat', bagTrolley: 'Cabin bag up to 8 kg', bagHold: 'Checked bag up to 23 kg', inc: 'Included', notInc: 'Not included', incFare: 'Included in the fare', added: 'Added · {p} per passenger', perPax: 'per passenger', bagAcc: 'According to the fare', bagInfant: 'Infants: the airline’s baggage rules for infants apply.', bagNote: 'Sizes and weights are set by the airline and can differ slightly. Check them on the airline website before you travel.', bagShort: { small: 'small bag', trolley: 'cabin bag 8 kg', hold: 'checked bag 23 kg' },
+      bagTitle: 'Baggage allowance', bagSub: 'Per passenger (adults and children), on every flight of this booking.', bagSmall: 'Small bag under the seat', bagTrolley: 'Cabin bag up to {kg} kg', bagHold: 'Checked bag up to 23 kg', inc: 'Included', notInc: 'Not included', incFare: 'Included in the fare', added: 'Added · {p} per passenger', perPax: 'per passenger', bagAcc: 'According to the fare', bagInfant: 'Infants: the airline’s baggage rules for infants apply.', bagNote: 'Sizes and weights are set by the airline and can differ slightly. Check them on the airline website before you travel.', bagShort: { small: 'small bag', trolley: 'cabin bag {kg} kg', hold: 'checked bag 23 kg' },
       cabin: 'Cabin', bag: 'Baggage', bagCabin: 'As included in the fare', bagChecked: '1 checked bag (23 kg) per passenger',
       pax: 'Passengers', name: 'Name', type: 'Type', tkt: 'Ticket number', seat: 'Seats', adult: 'Adult', child: 'Child', infant: 'Infant',
       byAirline: 'Issued by the airline', noSeat: 'At check-in',
-      pay: 'Payment', fare: 'Flight fare', seats: 'Seats', bags: 'Checked bags', total: 'Total paid', paidWith: 'Paid with', card: 'Card', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Bank transfer', office: 'Paid at our office',
+      pay: 'Payment', fare: 'Flight fare', seats: 'Seats', bags: 'Checked bags', cabs: 'Cabin bags', total: 'Total paid', paidWith: 'Paid with', card: 'Card', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Bank transfer', office: 'Paid at our office',
       info: 'Before you fly',
       i1: 'Check in online on the airline website 24 to 48 hours before departure. Use the airline booking code above.',
       i2: 'Be at the airport at least 2 hours before departure, or 3 hours for long-haul flights.',
@@ -29,11 +29,11 @@ var BunaviaETicket = (function () {
       confirmed: 'Buchung bestätigt – Ihr Ticket ist ausgestellt', ref: 'BUNAVIA-Buchungsnummer', pnr: 'Buchungscode der Airline', issued: 'Ausgestellt am',
       hello: 'Hallo', intro: 'Vielen Dank für Ihre Buchung bei BUNAVIA. Ihr Ticket ist ausgestellt. Bitte führen Sie dieses E-Ticket auf Ihrer Reise mit.',
       out: 'Hinflug', ret: 'Rückflug', flight: 'Flug', leg: 'Flug', dur: 'Dauer', direct: 'Direkt', change: 'Umsteigen in', layover: 'Wartezeit',
-      bagTitle: 'Freigepäck', bagSub: 'Pro Passagier (Erwachsene und Kinder), auf jedem Flug dieser Buchung.', bagSmall: 'Kleine Tasche unter dem Sitz', bagTrolley: 'Handgepäck bis 8 kg', bagHold: 'Aufgabegepäck bis 23 kg', inc: 'Inklusive', notInc: 'Nicht inklusive', incFare: 'Im Tarif inklusive', added: 'Hinzugebucht · {p} pro Passagier', perPax: 'pro Passagier', bagAcc: 'Laut Tarif', bagInfant: 'Babys: Es gelten die Gepäckregeln der Airline für Babys.', bagNote: 'Maße und Gewichte legt die Airline fest; sie können leicht abweichen. Prüfen Sie sie vor der Reise auf der Website der Airline.', bagShort: { small: 'kleine Tasche', trolley: 'Handgepäck 8 kg', hold: 'Aufgabegepäck 23 kg' },
+      bagTitle: 'Freigepäck', bagSub: 'Pro Passagier (Erwachsene und Kinder), auf jedem Flug dieser Buchung.', bagSmall: 'Kleine Tasche unter dem Sitz', bagTrolley: 'Handgepäck bis {kg} kg', bagHold: 'Aufgabegepäck bis 23 kg', inc: 'Inklusive', notInc: 'Nicht inklusive', incFare: 'Im Tarif inklusive', added: 'Hinzugebucht · {p} pro Passagier', perPax: 'pro Passagier', bagAcc: 'Laut Tarif', bagInfant: 'Babys: Es gelten die Gepäckregeln der Airline für Babys.', bagNote: 'Maße und Gewichte legt die Airline fest; sie können leicht abweichen. Prüfen Sie sie vor der Reise auf der Website der Airline.', bagShort: { small: 'kleine Tasche', trolley: 'Handgepäck {kg} kg', hold: 'Aufgabegepäck 23 kg' },
       cabin: 'Klasse', bag: 'Gepäck', bagCabin: 'Wie im Tarif enthalten', bagChecked: '1 Aufgabegepäck (23 kg) pro Passagier',
       pax: 'Passagiere', name: 'Name', type: 'Art', tkt: 'Ticketnummer', seat: 'Sitzplätze', adult: 'Erwachsener', child: 'Kind', infant: 'Kleinkind',
       byAirline: 'Von der Airline ausgestellt', noSeat: 'Beim Check-in',
-      pay: 'Zahlung', fare: 'Flugpreis', seats: 'Sitzplätze', bags: 'Aufgabegepäck', total: 'Bezahlt gesamt', paidWith: 'Bezahlt mit', card: 'Karte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Banküberweisung', office: 'Im Büro bezahlt',
+      pay: 'Zahlung', fare: 'Flugpreis', seats: 'Sitzplätze', bags: 'Aufgabegepäck', cabs: 'Handgepäck', total: 'Bezahlt gesamt', paidWith: 'Bezahlt mit', card: 'Karte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Banküberweisung', office: 'Im Büro bezahlt',
       info: 'Vor dem Abflug',
       i1: 'Checken Sie 24 bis 48 Stunden vor Abflug online auf der Website der Airline ein. Verwenden Sie den Buchungscode der Airline oben.',
       i2: 'Seien Sie mindestens 2 Stunden vor Abflug am Flughafen, bei Langstreckenflügen 3 Stunden.',
@@ -50,11 +50,11 @@ var BunaviaETicket = (function () {
       confirmed: 'Réservation confirmée – votre billet est émis', ref: 'Référence BUNAVIA', pnr: 'Code de réservation de la compagnie', issued: 'Émis le',
       hello: 'Bonjour', intro: 'Merci d’avoir réservé avec BUNAVIA. Votre billet est émis. Gardez ce billet électronique avec vous pendant votre voyage.',
       out: 'Aller', ret: 'Retour', flight: 'Vol', leg: 'Vol', dur: 'Durée', direct: 'Direct', change: 'Correspondance à', layover: 'attente',
-      bagTitle: 'Bagages autorisés', bagSub: 'Par passager (adultes et enfants), sur chaque vol de cette réservation.', bagSmall: 'Petit sac sous le siège', bagTrolley: 'Bagage cabine jusqu’à 8 kg', bagHold: 'Bagage en soute jusqu’à 23 kg', inc: 'Inclus', notInc: 'Non inclus', incFare: 'Inclus dans le tarif', added: 'Ajouté · {p} par passager', perPax: 'par passager', bagAcc: 'Selon le tarif', bagInfant: 'Bébés : les règles bagages de la compagnie pour les bébés s’appliquent.', bagNote: 'Les dimensions et poids sont fixés par la compagnie et peuvent varier légèrement. Vérifiez-les sur le site de la compagnie avant le voyage.', bagShort: { small: 'petit sac', trolley: 'bagage cabine 8 kg', hold: 'bagage en soute 23 kg' },
+      bagTitle: 'Bagages autorisés', bagSub: 'Par passager (adultes et enfants), sur chaque vol de cette réservation.', bagSmall: 'Petit sac sous le siège', bagTrolley: 'Bagage cabine jusqu’à {kg} kg', bagHold: 'Bagage en soute jusqu’à 23 kg', inc: 'Inclus', notInc: 'Non inclus', incFare: 'Inclus dans le tarif', added: 'Ajouté · {p} par passager', perPax: 'par passager', bagAcc: 'Selon le tarif', bagInfant: 'Bébés : les règles bagages de la compagnie pour les bébés s’appliquent.', bagNote: 'Les dimensions et poids sont fixés par la compagnie et peuvent varier légèrement. Vérifiez-les sur le site de la compagnie avant le voyage.', bagShort: { small: 'petit sac', trolley: 'bagage cabine {kg} kg', hold: 'bagage en soute 23 kg' },
       cabin: 'Classe', bag: 'Bagages', bagCabin: 'Inclus dans le tarif', bagChecked: '1 bagage en soute (23 kg) par passager',
       pax: 'Passagers', name: 'Nom', type: 'Type', tkt: 'Numéro de billet', seat: 'Sièges', adult: 'Adulte', child: 'Enfant', infant: 'Bébé',
       byAirline: 'Émis par la compagnie', noSeat: 'À l’enregistrement',
-      pay: 'Paiement', fare: 'Tarif du vol', seats: 'Sièges', bags: 'Bagages en soute', total: 'Total payé', paidWith: 'Payé par', card: 'Carte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Virement bancaire', office: 'Payé à notre agence',
+      pay: 'Paiement', fare: 'Tarif du vol', seats: 'Sièges', bags: 'Bagages en soute', cabs: 'Bagages cabine', total: 'Total payé', paidWith: 'Payé par', card: 'Carte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Virement bancaire', office: 'Payé à notre agence',
       info: 'Avant votre vol',
       i1: 'Enregistrez-vous en ligne sur le site de la compagnie 24 à 48 heures avant le départ, avec le code de réservation de la compagnie ci-dessus.',
       i2: 'Soyez à l’aéroport au moins 2 heures avant le départ, ou 3 heures pour les vols long-courriers.',
@@ -71,11 +71,11 @@ var BunaviaETicket = (function () {
       confirmed: 'Rezervimi u konfirmua – bileta juaj është lëshuar', ref: 'Referenca BUNAVIA', pnr: 'Kodi i rezervimit i kompanisë ajrore', issued: 'Lëshuar më',
       hello: 'Përshëndetje', intro: 'Faleminderit që rezervuat me BUNAVIA. Bileta juaj është lëshuar. Mbajeni këtë biletë elektronike me vete gjatë udhëtimit.',
       out: 'Vajtja', ret: 'Kthimi', flight: 'Fluturimi', leg: 'Fluturimi', dur: 'Kohëzgjatja', direct: 'Direkt', change: 'Ndërrim në', layover: 'pritje',
-      bagTitle: 'Bagazhi i lejuar', bagSub: 'Për çdo pasagjer (të rritur dhe fëmijë), në çdo fluturim të këtij rezervimi.', bagSmall: 'Çantë e vogël nën ulëse', bagTrolley: 'Bagazh dore deri në 8 kg', bagHold: 'Bagazh i regjistruar deri në 23 kg', inc: 'I përfshirë', notInc: 'Nuk përfshihet', incFare: 'I përfshirë në tarifë', added: 'I shtuar · {p} për pasagjer', perPax: 'për pasagjer', bagAcc: 'Sipas tarifës', bagInfant: 'Foshnjat: vlejnë rregullat e kompanisë ajrore për bagazhin e foshnjave.', bagNote: 'Përmasat dhe peshat i cakton kompania ajrore dhe mund të ndryshojnë pak. Kontrollojini në faqen e kompanisë para udhëtimit.', bagShort: { small: 'çantë e vogël', trolley: 'bagazh dore 8 kg', hold: 'bagazh i regjistruar 23 kg' },
+      bagTitle: 'Bagazhi i lejuar', bagSub: 'Për çdo pasagjer (të rritur dhe fëmijë), në çdo fluturim të këtij rezervimi.', bagSmall: 'Çantë e vogël nën ulëse', bagTrolley: 'Bagazh dore deri në {kg} kg', bagHold: 'Bagazh i regjistruar deri në 23 kg', inc: 'I përfshirë', notInc: 'Nuk përfshihet', incFare: 'I përfshirë në tarifë', added: 'I shtuar · {p} për pasagjer', perPax: 'për pasagjer', bagAcc: 'Sipas tarifës', bagInfant: 'Foshnjat: vlejnë rregullat e kompanisë ajrore për bagazhin e foshnjave.', bagNote: 'Përmasat dhe peshat i cakton kompania ajrore dhe mund të ndryshojnë pak. Kontrollojini në faqen e kompanisë para udhëtimit.', bagShort: { small: 'çantë e vogël', trolley: 'bagazh dore {kg} kg', hold: 'bagazh i regjistruar 23 kg' },
       cabin: 'Klasa', bag: 'Bagazhi', bagCabin: 'Siç përfshihet në tarifë', bagChecked: '1 bagazh i regjistruar (23 kg) për pasagjer',
       pax: 'Pasagjerët', name: 'Emri', type: 'Lloji', tkt: 'Numri i biletës', seat: 'Ulëset', adult: 'I rritur', child: 'Fëmijë', infant: 'Foshnjë',
       byAirline: 'Lëshohet nga kompania ajrore', noSeat: 'Në check-in',
-      pay: 'Pagesa', fare: 'Çmimi i fluturimit', seats: 'Ulëset', bags: 'Bagazhet e regjistruara', total: 'Totali i paguar', paidWith: 'Paguar me', card: 'Kartelë', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Transfer bankar', office: 'Paguar në zyrë',
+      pay: 'Pagesa', fare: 'Çmimi i fluturimit', seats: 'Ulëset', bags: 'Bagazhet e regjistruara', cabs: 'Bagazhet e dorës', total: 'Totali i paguar', paidWith: 'Paguar me', card: 'Kartelë', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Transfer bankar', office: 'Paguar në zyrë',
       info: 'Para fluturimit',
       i1: 'Bëni check-in online në faqen e kompanisë ajrore 24 deri në 48 orë para nisjes. Përdorni kodin e rezervimit të kompanisë ajrore më lart.',
       i2: 'Jini në aeroport të paktën 2 orë para nisjes, ose 3 orë për fluturimet e gjata.',
@@ -117,12 +117,13 @@ var BunaviaETicket = (function () {
   // What baggage each passenger has. New bookings save extras.bag; older ones only extras.baggage ('cabin' or 'checked').
   function bagInfo(ex) {
     var b = ex.bag || null;
-    if (b) return { small: true, trolley: b.cabin === 'trolley' ? true : b.cabin === 'small' ? false : null, hold: b.checked || 'none', unit: Number(b.per_pax_eur || 0) };
-    return { small: true, trolley: null, hold: ex.baggage === 'checked' ? 'added' : 'unknown', unit: 0 };
+    if (b) return { small: b.small_item !== false, trolley: b.cabin === 'trolley' || b.cabin === 'added' ? true : b.cabin === 'small' ? false : null, cabAdded: b.cabin === 'added', cabUnit: Number(b.cabin_per_pax_eur || 0), kg: b.cabin_kg || 8, hold: b.checked || 'none', unit: Number(b.per_pax_eur || 0) };
+    return { small: true, trolley: null, kg: 8, hold: ex.baggage === 'checked' ? 'added' : 'unknown', unit: 0 };
   }
   function bagLine(ex, t) {
-    var g = bagInfo(ex), a = [t.bagShort.small];
-    if (g.trolley) a.push(t.bagShort.trolley);
+    var g = bagInfo(ex), a = [];
+    if (g.small) a.push(t.bagShort.small);
+    if (g.trolley) a.push(t.bagShort.trolley.replace('{kg}', g.kg));
     if (g.hold === 'included' || g.hold === 'added') a.push(t.bagShort.hold);
     if (g.trolley === null && g.hold === 'unknown') return t.bagAcc;
     return a.join(' + ') + ' (' + t.perPax + ')';
@@ -136,8 +137,8 @@ var BunaviaETicket = (function () {
     }
     var hold = g.hold === 'included' ? st(true, t.incFare) : g.hold === 'added' ? st(true, g.unit ? t.added.replace('{p}', money(g.unit)) : t.inc) : g.hold === 'none' ? st(false, t.notInc) : st(null, t.bagAcc);
     var h = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ' + LINE + ';border-radius:12px;border-collapse:separate">' +
-      row('👜', t.bagSmall, st(true, t.inc), true) +
-      row('🧳', t.bagTrolley, g.trolley === null ? st(null, t.bagAcc) : st(g.trolley, g.trolley ? t.inc : t.notInc)) +
+      row('👜', t.bagSmall, st(g.small, g.small ? t.inc : t.notInc), true) +
+      row('🧳', t.bagTrolley.replace('{kg}', g.kg), g.trolley === null ? st(null, t.bagAcc) : g.cabAdded ? st(true, g.cabUnit ? t.added.replace('{p}', money(g.cabUnit)) : t.inc) : st(g.trolley, g.trolley ? t.inc : t.notInc)) +
       row('🛄', t.bagHold, hold) + '</table>';
     var hasInf = (pax || []).some(function (p) { return p.type === 'infant'; });
     h += '<div style="font:400 13px/1.5 ' + FONT + ';color:' + MUTED + ';padding:8px 2px 0">' + (hasInf ? esc(t.bagInfant) + ' ' : '') + esc(t.bagNote) + '</div>';
@@ -229,11 +230,12 @@ var BunaviaETicket = (function () {
     h += '<tr><td style="padding:0 24px 8px;font:400 13px ' + FONT + ';color:' + MUTED + '">' + esc(t.bagSub) + '</td></tr>';
     h += '<tr><td style="padding:0 24px">' + bagTable(ex, t, pax) + '</td></tr>';
     // payment
-    var bagTot = Number(ex.bag_total_eur || 0), seatTot = Number(ex.seat_total_eur || 0), nSeat = pax.filter(function (p) { return p.type !== 'infant'; }).length || 1;
-    var fareTot = Number(b.total_eur || 0) - seatTot - bagTot;
+    var bagTot = Number(ex.bag_total_eur || 0), cabTot = Number(ex.cabin_bag_total_eur || 0), seatTot = Number(ex.seat_total_eur || 0), nSeat = pax.filter(function (p) { return p.type !== 'infant'; }).length || 1;
+    var fareTot = Number(b.total_eur || 0) - seatTot - bagTot - cabTot;
     h += '<tr><td style="padding:22px 24px 8px;font:700 18px ' + FONT + ';color:' + INK + '">' + esc(t.pay) + '</td></tr>';
     h += '<tr><td style="padding:0 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ' + LINE + ';border-radius:12px;border-collapse:separate">' +
       '<tr><td style="padding:10px 14px;font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.fare) + (trip.fare_eur ? ' <span style="color:' + MUTED + '">(' + nSeat + ' × ' + esc(money(trip.fare_eur)) + ')</span>' : '') + '</td><td align="right" style="padding:10px 14px;font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(fareTot)) + '</td></tr>' +
+      (cabTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.cabs) + (ex.bag && ex.bag.cabin_per_pax_eur ? ' <span style="color:' + MUTED + '">(' + nSeat + ' × ' + esc(money(ex.bag.cabin_per_pax_eur)) + ')</span>' : '') + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(cabTot)) + '</td></tr>' : '') +
       (bagTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.bags) + (ex.bag && ex.bag.per_pax_eur ? ' <span style="color:' + MUTED + '">(' + nSeat + ' × ' + esc(money(ex.bag.per_pax_eur)) + ')</span>' : '') + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(bagTot)) + '</td></tr>' : '') +
       (seatTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.seats) + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(seatTot)) + '</td></tr>' : '') +
       '<tr style="background:#F4F7FB"><td style="padding:12px 14px;border-top:1px solid ' + LINE + ';font:700 16px ' + FONT + ';color:' + INK + '">' + esc(t.total) + '<div style="font:400 12px ' + FONT + ';color:' + MUTED + '">' + esc(t.paidWith) + ' ' + esc(t[b.payment_method] || b.payment_method || '') + '</div></td>' +
