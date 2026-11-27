@@ -11,7 +11,7 @@ var BunaviaETicket = (function () {
       cabin: 'Cabin', bag: 'Baggage', bagCabin: 'As included in the fare', bagChecked: '1 checked bag (23 kg) per passenger',
       pax: 'Passengers', name: 'Name', type: 'Type', tkt: 'Ticket number', seat: 'Seats', adult: 'Adult', child: 'Child', infant: 'Infant',
       byAirline: 'Issued by the airline', noSeat: 'At check-in',
-      pay: 'Payment', fare: 'Flight fare', seats: 'Seats', bags: 'Checked bags', total: 'Total paid', paidWith: 'Paid with', card: 'Card', apple_pay: 'Apple Pay', google_pay: 'Google Pay',
+      pay: 'Payment', fare: 'Flight fare', seats: 'Seats', bags: 'Checked bags', total: 'Total paid', paidWith: 'Paid with', card: 'Card', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Bank transfer', office: 'Paid at our office',
       info: 'Before you fly',
       i1: 'Check in online on the airline website 24 to 48 hours before departure. Use the airline booking code above.',
       i2: 'Be at the airport at least 2 hours before departure, or 3 hours for long-haul flights.',
@@ -19,7 +19,7 @@ var BunaviaETicket = (function () {
       i4: 'Baggage rules, check-in times and terminals are set by the airline. Check them before you travel.',
       help: 'Need help?', helpTxt: 'Our team is here for you by phone and by email.',
       view: 'View and download your e-ticket', print: 'Print or save as PDF',
-      opBy: 'Airline', classes: { 'Economy': 'Economy', 'Premium economy': 'Premium economy', 'Business': 'Business', 'First class': 'First class' },
+      checkin: 'Online check-in and baggage rules', opBy: 'Airline', classes: { 'Economy': 'Economy', 'Premium economy': 'Premium economy', 'Business': 'Business', 'First class': 'First class' },
       legal: 'This e-ticket was issued by BUNAVIA L.L.C., Hysni Gashi 73, Floor 3, No. 19, 10000 Prishtina, Kosovo. Unique ID 812466648. The airline’s conditions of carriage apply.',
       subject: 'Your e-ticket', days: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], months: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
     },
@@ -31,7 +31,7 @@ var BunaviaETicket = (function () {
       cabin: 'Klasse', bag: 'Gepäck', bagCabin: 'Wie im Tarif enthalten', bagChecked: '1 Aufgabegepäck (23 kg) pro Passagier',
       pax: 'Passagiere', name: 'Name', type: 'Art', tkt: 'Ticketnummer', seat: 'Sitzplätze', adult: 'Erwachsener', child: 'Kind', infant: 'Kleinkind',
       byAirline: 'Von der Airline ausgestellt', noSeat: 'Beim Check-in',
-      pay: 'Zahlung', fare: 'Flugpreis', seats: 'Sitzplätze', bags: 'Aufgabegepäck', total: 'Bezahlt gesamt', paidWith: 'Bezahlt mit', card: 'Karte', apple_pay: 'Apple Pay', google_pay: 'Google Pay',
+      pay: 'Zahlung', fare: 'Flugpreis', seats: 'Sitzplätze', bags: 'Aufgabegepäck', total: 'Bezahlt gesamt', paidWith: 'Bezahlt mit', card: 'Karte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Banküberweisung', office: 'Im Büro bezahlt',
       info: 'Vor dem Abflug',
       i1: 'Checken Sie 24 bis 48 Stunden vor Abflug online auf der Website der Airline ein. Verwenden Sie den Buchungscode der Airline oben.',
       i2: 'Seien Sie mindestens 2 Stunden vor Abflug am Flughafen, bei Langstreckenflügen 3 Stunden.',
@@ -39,7 +39,7 @@ var BunaviaETicket = (function () {
       i4: 'Gepäckregeln, Check-in-Zeiten und Terminals legt die Airline fest. Prüfen Sie diese vor der Reise.',
       help: 'Brauchen Sie Hilfe?', helpTxt: 'Unser Team ist telefonisch und per E-Mail für Sie da.',
       view: 'E-Ticket ansehen und herunterladen', print: 'Drucken oder als PDF speichern',
-      opBy: 'Airline', classes: { 'Economy': 'Economy', 'Premium economy': 'Premium Economy', 'Business': 'Business', 'First class': 'First Class' },
+      checkin: 'Online-Check-in und Gepäckregeln', opBy: 'Airline', classes: { 'Economy': 'Economy', 'Premium economy': 'Premium Economy', 'Business': 'Business', 'First class': 'First Class' },
       legal: 'Dieses E-Ticket wurde von BUNAVIA L.L.C., Hysni Gashi 73, 3. Stock, Nr. 19, 10000 Prishtina, Kosovo, ausgestellt. Unique ID 812466648. Es gelten die Beförderungsbedingungen der Airline.',
       subject: 'Ihr E-Ticket', days: ['So','Mo','Di','Mi','Do','Fr','Sa'], months: ['Jan.','Feb.','März','Apr.','Mai','Juni','Juli','Aug.','Sep.','Okt.','Nov.','Dez.']
     },
@@ -51,7 +51,7 @@ var BunaviaETicket = (function () {
       cabin: 'Classe', bag: 'Bagages', bagCabin: 'Inclus dans le tarif', bagChecked: '1 bagage en soute (23 kg) par passager',
       pax: 'Passagers', name: 'Nom', type: 'Type', tkt: 'Numéro de billet', seat: 'Sièges', adult: 'Adulte', child: 'Enfant', infant: 'Bébé',
       byAirline: 'Émis par la compagnie', noSeat: 'À l’enregistrement',
-      pay: 'Paiement', fare: 'Tarif du vol', seats: 'Sièges', bags: 'Bagages en soute', total: 'Total payé', paidWith: 'Payé par', card: 'Carte', apple_pay: 'Apple Pay', google_pay: 'Google Pay',
+      pay: 'Paiement', fare: 'Tarif du vol', seats: 'Sièges', bags: 'Bagages en soute', total: 'Total payé', paidWith: 'Payé par', card: 'Carte', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Virement bancaire', office: 'Payé à notre agence',
       info: 'Avant votre vol',
       i1: 'Enregistrez-vous en ligne sur le site de la compagnie 24 à 48 heures avant le départ, avec le code de réservation de la compagnie ci-dessus.',
       i2: 'Soyez à l’aéroport au moins 2 heures avant le départ, ou 3 heures pour les vols long-courriers.',
@@ -59,7 +59,7 @@ var BunaviaETicket = (function () {
       i4: 'Les règles de bagages, les heures d’enregistrement et les terminaux sont fixés par la compagnie. Vérifiez-les avant le voyage.',
       help: 'Besoin d’aide ?', helpTxt: 'Notre équipe vous répond par téléphone et par e-mail.',
       view: 'Voir et télécharger votre billet', print: 'Imprimer ou enregistrer en PDF',
-      opBy: 'Compagnie', classes: { 'Economy': 'Économique', 'Premium economy': 'Premium économique', 'Business': 'Affaires', 'First class': 'Première' },
+      checkin: 'Enregistrement en ligne et règles bagages', opBy: 'Compagnie', classes: { 'Economy': 'Économique', 'Premium economy': 'Premium économique', 'Business': 'Affaires', 'First class': 'Première' },
       legal: 'Ce billet électronique a été émis par BUNAVIA L.L.C., Hysni Gashi 73, 3e étage, n° 19, 10000 Prishtina, Kosovo. Unique ID 812466648. Les conditions de transport de la compagnie s’appliquent.',
       subject: 'Votre billet électronique', days: ['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'], months: ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.']
     },
@@ -71,7 +71,7 @@ var BunaviaETicket = (function () {
       cabin: 'Klasa', bag: 'Bagazhi', bagCabin: 'Siç përfshihet në tarifë', bagChecked: '1 bagazh i regjistruar (23 kg) për pasagjer',
       pax: 'Pasagjerët', name: 'Emri', type: 'Lloji', tkt: 'Numri i biletës', seat: 'Ulëset', adult: 'I rritur', child: 'Fëmijë', infant: 'Foshnjë',
       byAirline: 'Lëshohet nga kompania ajrore', noSeat: 'Në check-in',
-      pay: 'Pagesa', fare: 'Çmimi i fluturimit', seats: 'Ulëset', bags: 'Bagazhet e regjistruara', total: 'Totali i paguar', paidWith: 'Paguar me', card: 'Kartelë', apple_pay: 'Apple Pay', google_pay: 'Google Pay',
+      pay: 'Pagesa', fare: 'Çmimi i fluturimit', seats: 'Ulëset', bags: 'Bagazhet e regjistruara', total: 'Totali i paguar', paidWith: 'Paguar me', card: 'Kartelë', apple_pay: 'Apple Pay', google_pay: 'Google Pay', bank_transfer: 'Transfer bankar', office: 'Paguar në zyrë',
       info: 'Para fluturimit',
       i1: 'Bëni check-in online në faqen e kompanisë ajrore 24 deri në 48 orë para nisjes. Përdorni kodin e rezervimit të kompanisë ajrore më lart.',
       i2: 'Jini në aeroport të paktën 2 orë para nisjes, ose 3 orë për fluturimet e gjata.',
@@ -79,11 +79,14 @@ var BunaviaETicket = (function () {
       i4: 'Rregullat e bagazhit, oraret e check-in dhe terminalet i cakton kompania ajrore. Kontrollojini para udhëtimit.',
       help: 'Keni nevojë për ndihmë?', helpTxt: 'Ekipi ynë është këtu për ju në telefon dhe me email.',
       view: 'Shikoni dhe shkarkoni biletën', print: 'Printo ose ruaj si PDF',
-      opBy: 'Kompania', classes: { 'Economy': 'Ekonomike', 'Premium economy': 'Ekonomike premium', 'Business': 'Biznes', 'First class': 'Klasi i parë' },
+      checkin: 'Check-in online dhe rregullat e bagazhit', opBy: 'Kompania', classes: { 'Economy': 'Ekonomike', 'Premium economy': 'Ekonomike premium', 'Business': 'Biznes', 'First class': 'Klasi i parë' },
       legal: 'Kjo biletë elektronike u lëshua nga BUNAVIA L.L.C., Hysni Gashi 73, Kati 3, Nr. 19, 10000 Prishtinë, Kosovë. Numri unik 812466648. Zbatohen kushtet e transportit të kompanisë ajrore.',
       subject: 'Bileta juaj elektronike', days: ['Die','Hën','Mar','Mër','Enj','Pre','Sht'], months: ['jan','shk','mar','pri','maj','qer','korr','gush','sht','tet','nën','dhj']
     }
   };
+  // Official websites of the airlines we show (check-in and baggage rules are there)
+  var SITES = { LX: 'swiss.com', WK: 'flyedelweiss.com', GM: 'chair.ch', U2: 'easyjet.com', LH: 'lufthansa.com', EW: 'eurowings.com', DE: 'condor.com', OS: 'austrian.com', TK: 'turkishairlines.com', PC: 'flypgs.com', EK: 'emirates.com', FZ: 'flydubai.com', W6: 'wizzair.com', FR: 'ryanair.com', AF: 'airfrance.com', KL: 'klm.com', BA: 'britishairways.com', JU: 'airserbia.com' };
+  function site(fn) { var c = String(fn || '').split(' ')[0].toUpperCase(); return SITES[c] || ''; }
   var NAVY = '#0B1730', BLUE = '#1D6FD8', INK = '#0F1C2E', MUTED = '#5A6B80', LINE = '#E3E9F1', FONT = 'Roboto,Arial,Helvetica,sans-serif';
 
   function esc(t) { return String(t == null ? '' : t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -135,6 +138,7 @@ var BunaviaETicket = (function () {
       '<tr><td colspan="3" style="padding:10px 16px;border-top:1px solid ' + LINE + ';font:400 13px ' + FONT + ';color:' + MUTED + '">' +
         esc(t.cabin) + ': <b style="color:' + INK + '">' + esc((t.classes[trip.cabin] || trip.cabin || t.classes.Economy)) + '</b> &nbsp;·&nbsp; ' +
         esc(t.bag) + ': <b style="color:' + INK + '">' + esc(((trip.extras || {}).baggage === 'checked') ? t.bagChecked : t.bagCabin) + '</b></td></tr>' +
+      (site(s.fn) ? '<tr><td colspan="3" style="padding:0 16px 12px;font:400 13px ' + FONT + ';color:' + MUTED + '">' + esc(t.checkin) + ': <a href="https://www.' + site(s.fn) + '" style="color:' + BLUE + ';font-weight:700;text-decoration:none">' + esc(site(s.fn)) + '</a></td></tr>' : '') +
       '</table>';
   }
 
@@ -244,6 +248,6 @@ var BunaviaETicket = (function () {
     };
   }
 
-  return { render: render, subject: subject, text: text, demo: demo, langs: Object.keys(L) };
+  return { render: render, subject: subject, text: text, demo: demo, site: site, langs: Object.keys(L) };
 })();
 if (typeof module !== 'undefined' && module.exports) module.exports = BunaviaETicket;
