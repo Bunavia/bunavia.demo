@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Rate your trip – BUNAVIA</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:#EEF2F7;color:#0F1C2E;font:400 16px/1.5 Roboto,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#0B1730;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px max(16px,calc((100% - 680px)/2))}
+.bar a.home{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.12em;display:flex;align-items:center;gap:8px}
+.bar a.home img{width:30px;height:28px}
+.bar select{font:500 14px Roboto,system-ui,sans-serif;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;padding:7px 12px;cursor:pointer}
+.bar select option{color:#0F1C2E}
+.box{max-width:520px;margin:32px auto;background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(15,28,46,.08)}
+@media (max-width:560px){.box{margin:16px;padding:20px}}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:#4C5E73;margin:0 0 18px;font-size:15px}
+.trip{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#F4F8FD;border:1px solid #DCE8F6;border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:15px}
+.trip b{color:#0F1C2E}.trip span{color:#4C5E73}
+fieldset{border:0;margin:0;padding:0}
+legend,label.l{display:block;font-weight:700;font-size:15px;margin:0 0 6px}
+.stars{display:flex;gap:6px;flex-direction:row-reverse;justify-content:flex-end}
+.stars input{position:absolute;opacity:0;width:1px;height:1px}
+.stars label{cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:10px}
+.stars svg{width:36px;height:36px;fill:#D5DEEA;transition:fill .12s}
+.stars input:checked~label svg{fill:#F5A524}
+@media(hover:hover){.stars label:hover svg,.stars label:hover~label svg{fill:#F8BE57}}
+.stars input:focus-visible+label{outline:3px solid #8FB4DE;outline-offset:2px}
+.rl{min-height:22px;color:#4C5E73;font-size:14px;margin:4px 0 16px}
+textarea,input[type=text]{width:100%;font:400 16px Roboto,system-ui,sans-serif;border:1px solid #C9D4E2;border-radius:10px;padding:11px 12px;color:#0F1C2E}
+textarea{min-height:120px;resize:vertical}
+.cnt{text-align:right;color:#6B7B8F;font-size:13px;margin:2px 0 12px}
+.hint{color:#6B7B8F;font-size:13px;margin:4px 0 14px}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#33475C;margin:8px 0 4px}
+.ck input{width:20px;height:20px;margin:1px 0 0;flex:none}
+.ck a{color:#1D6FD8}
+button{margin-top:16px;width:100%;font:700 16px Roboto,system-ui,sans-serif;border:0;border-radius:10px;padding:13px;background:#1D6FD8;color:#fff;cursor:pointer}
+button[disabled]{opacity:.6;cursor:default}
+.msg{margin-top:12px;font-weight:600;color:#B42318}.msg:empty{display:none}
+.state{text-align:center;padding:10px 0}
+.state .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:#E8F1FC;color:#1D6FD8;font-size:28px;font-weight:700}
+.state.ok .ic{background:#E7F6EC;color:#1E7B3A}
+.state p{color:#4C5E73}
+.state a{display:inline-block;margin-top:8px;color:#1D6FD8;font-weight:700;text-decoration:none}
+:focus-visible{outline:3px solid #8FB4DE;outline-offset:2px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a class="home" href="/"><img src="eticket-logo.png" alt=""><span>BUNAVIA</span></a>
+  <select id="lang" aria-label="Language"><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="sq">Shqip</option></select>
+</div>
+<main class="box" id="main">
+  <div id="st" class="state"><div class="ic">…</div><h1 id="sth"></h1><p id="stp"></p><a id="sta" href="/"></a></div>
+  <form id="f" novalidate hidden>
+    <h1 id="t_h"></h1>
+    <p class="sub" id="t_sub"></p>
+    <div class="trip"><b id="route"></b><span id="refd"></span></div>
+    <fieldset>
+      <legend id="t_rate"></legend>
+      <div class="stars" id="stars"></div>
+      <div class="rl" id="rl" aria-live="polite"></div>
+    </fieldset>
+    <label class="l" for="cm" id="t_cm"></label>
+    <textarea id="cm" maxlength="1000"></textarea>
+    <div class="cnt"><span id="n">0</span>/1000</div>
+    <label class="l" for="nm" id="t_nm"></label>
+    <input type="text" id="nm" maxlength="60" autocomplete="off">
+    <div class="hint" id="t_nmh"></div>
+    <label class="ck"><input type="checkbox" id="ok"><span id="t_ok"></span></label>
+    <button type="submit" id="go"></button>
+    <div class="msg" id="msg" role="alert"></div>
+  </form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  var SB_URL='https://sxhmsjnyddzdbexmrkok.supabase.co',SB_KEY='sb_publishable_Bq1gCMyeOtKvWzfjRb6hHw_dvPe2_ZQ';
+  var UI={
+    en:{h:'How was your trip?',sub:'Your opinion helps other travellers and helps us get better.',ref:'Booking',rate:'Your rating',cm:'Your comment (optional)',cmp:'What went well? What could we do better?',nm:'Name shown with your review',nmh:'You can change it, for example to your first name only.',
+        ok:'I agree that my rating, my comment and the name above are published on bunavia.com. <a href="legal.html#privacy" target="_blank" rel="noopener">Privacy policy</a>',go:'Send review',
+        r:['','Very poor','Poor','Okay','Good','Excellent'],star:'{n} out of 5 stars',
+        pick:'Please choose from 1 to 5 stars.',agree:'Please tick the box so we can publish your review.',wait:'Sending...',
+        doneH:'Thank you for your review!',doneP:'We check every review before it appears on our website. We publish all real reviews, good and bad. We only hide insults and personal data.',
+        twiceH:'You have already reviewed this trip',twiceP:'Thank you! Each booking can be reviewed once.',
+        earlyH:'You can review this trip after you travel',earlyP:'Come back to this link after your departure date.',
+        notH:'This booking cannot be reviewed yet',notP:'Reviews open once the ticket is issued and the trip has started.',
+        badH:'This review link is not valid',badP:'Please use the link from our email or from "My account". Questions? info@bunavia.com · +383 46 100 031',
+        offH:'The review service is not available right now',offP:'Please try again later or write to info@bunavia.com.',
+        loading:'Loading...',home:'Back to bunavia.com'},
+    de:{h:'Wie war Ihre Reise?',sub:'Ihre Meinung hilft anderen Reisenden und hilft uns, besser zu werden.',ref:'Buchung',rate:'Ihre Bewertung',cm:'Ihr Kommentar (freiwillig)',cmp:'Was war gut? Was können wir besser machen?',nm:'Name bei Ihrer Bewertung',nmh:'Sie können ihn ändern, zum Beispiel nur auf Ihren Vornamen.',
+        ok:'Ich bin einverstanden, dass meine Bewertung, mein Kommentar und der Name oben auf bunavia.com veröffentlicht werden. <a href="legal.html#privacy" target="_blank" rel="noopener">Datenschutzerklärung</a>',go:'Bewertung senden',
+        r:['','Sehr schlecht','Schlecht','In Ordnung','Gut','Ausgezeichnet'],star:'{n} von 5 Sternen',
+        pick:'Bitte wählen Sie 1 bis 5 Sterne.',agree:'Bitte setzen Sie das Häkchen, damit wir Ihre Bewertung veröffentlichen können.',wait:'Wird gesendet...',
+        doneH:'Vielen Dank für Ihre Bewertung!',doneP:'Wir prüfen jede Bewertung, bevor sie auf unserer Website erscheint. Wir veröffentlichen alle echten Bewertungen, gute und schlechte. Wir entfernen nur Beleidigungen und persönliche Daten.',
+        twiceH:'Sie haben diese Reise bereits bewertet',twiceP:'Vielen Dank! Jede Buchung kann einmal bewertet werden.',
+        earlyH:'Sie können diese Reise nach dem Abflug bewerten',earlyP:'Öffnen Sie diesen Link nach Ihrem Abflugdatum erneut.',
+        notH:'Diese Buchung kann noch nicht bewertet werden',notP:'Bewertungen sind möglich, sobald das Ticket ausgestellt ist und die Reise begonnen hat.',
+        badH:'Dieser Bewertungslink ist ungültig',badP:'Bitte nutzen Sie den Link aus unserer E-Mail oder aus „Mein Konto“. Fragen? info@bunavia.com · +383 46 100 031',
+        offH:'Die Bewertungsfunktion ist gerade nicht verfügbar',offP:'Bitte versuchen Sie es später erneut oder schreiben Sie an info@bunavia.com.',
+        loading:'Wird geladen...',home:'Zurück zu bunavia.com'},
+    fr:{h:'Comment s’est passé votre voyage ?',sub:'Votre avis aide les autres voyageurs et nous aide à nous améliorer.',ref:'Réservation',rate:'Votre note',cm:'Votre commentaire (facultatif)',cmp:'Qu’est-ce qui s’est bien passé ? Que pouvons-nous améliorer ?',nm:'Nom affiché avec votre avis',nmh:'Vous pouvez le modifier, par exemple ne garder que votre prénom.',
+        ok:'J’accepte que ma note, mon commentaire et le nom ci-dessus soient publiés sur bunavia.com. <a href="legal.html#privacy" target="_blank" rel="noopener">Politique de confidentialité</a>',go:'Envoyer l’avis',
+        r:['','Très mauvais','Mauvais','Correct','Bien','Excellent'],star:'{n} sur 5 étoiles',
+        pick:'Veuillez choisir de 1 à 5 étoiles.',agree:'Veuillez cocher la case pour que nous puissions publier votre avis.',wait:'Envoi...',
+        doneH:'Merci pour votre avis !',doneP:'Nous vérifions chaque avis avant sa publication sur notre site. Nous publions tous les avis réels, positifs et négatifs. Nous masquons seulement les insultes et les données personnelles.',
+        twiceH:'Vous avez déjà évalué ce voyage',twiceP:'Merci ! Chaque réservation peut être évaluée une fois.',
+        earlyH:'Vous pourrez évaluer ce voyage après le départ',earlyP:'Revenez sur ce lien après votre date de départ.',
+        notH:'Cette réservation ne peut pas encore être évaluée',notP:'Les avis sont possibles une fois le billet émis et le voyage commencé.',
+        badH:'Ce lien d’avis n’est pas valable',badP:'Utilisez le lien de notre e-mail ou de « Mon compte ». Questions ? info@bunavia.com · +383 46 100 031',
+        offH:'Le service d’avis n’est pas disponible pour le moment',offP:'Réessayez plus tard ou écrivez à info@bunavia.com.',
+        loading:'Chargement...',home:'Retour à bunavia.com'},
+    sq:{h:'Si ishte udhëtimi juaj?',sub:'Mendimi juaj i ndihmon udhëtarët e tjerë dhe na ndihmon të bëhemi më të mirë.',ref:'Rezervimi',rate:'Vlerësimi juaj',cm:'Komenti juaj (sipas dëshirës)',cmp:'Çfarë shkoi mirë? Çfarë mund të bëjmë më mirë?',nm:'Emri që shfaqet me vlerësimin',nmh:'Mund ta ndryshoni, për shembull vetëm emrin.',
+        ok:'Pajtohem që vlerësimi, komenti dhe emri më lart të publikohen në bunavia.com. <a href="legal.html#privacy" target="_blank" rel="noopener">Politika e privatësisë</a>',go:'Dërgo vlerësimin',
+        r:['','Shumë dobët','Dobët','Mirë','Shumë mirë','Shkëlqyeshëm'],star:'{n} nga 5 yje',
+        pick:'Ju lutemi zgjidhni nga 1 deri në 5 yje.',agree:'Ju lutemi shënoni kutinë që ta publikojmë vlerësimin.',wait:'Duke dërguar...',
+        doneH:'Faleminderit për vlerësimin!',doneP:'E kontrollojmë çdo vlerësim para se të shfaqet në faqe. I publikojmë të gjitha vlerësimet reale, të mira dhe të këqija. Fshehim vetëm fyerjet dhe të dhënat personale.',
+        twiceH:'E keni vlerësuar tashmë këtë udhëtim',twiceP:'Faleminderit! Çdo rezervim mund të vlerësohet një herë.',
+        earlyH:'Mund ta vlerësoni këtë udhëtim pasi të udhëtoni',earlyP:'Hapeni këtë link përsëri pas datës së nisjes.',
+        notH:'Ky rezervim nuk mund të vlerësohet ende',notP:'Vlerësimi hapet kur bileta të jetë lëshuar dhe udhëtimi të ketë filluar.',
+        badH:'Ky link vlerësimi nuk është i vlefshëm',badP:'Përdorni linkun nga emaili ynë ose nga „Llogaria ime“. Pyetje? info@bunavia.com · +383 46 100 031',
+        offH:'Shërbimi i vlerësimeve nuk është i disponueshëm tani',offP:'Provoni më vonë ose shkruani në info@bunavia.com.',
+        loading:'Duke u ngarkuar...',home:'Kthehu te bunavia.com'}
+  };
+  function $(i){return document.getElementById(i)}
+  var lang='en',info=null,state='loading',chosen=false,tok=new URLSearchParams(location.search).get('t')||'';
+  try{var s=localStorage.getItem('bv_lang');if(UI[s]){lang=s;chosen=true}else{var n=(navigator.language||'').slice(0,2);if(UI[n])lang=n}}catch(e){}
+  function u(k){return (UI[lang]||UI.en)[k]}
+  var STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg>';
+  var h='';for(var i=5;i>=1;i--)h+='<input type="radio" name="r" id="r'+i+'" value="'+i+'"><label for="r'+i+'" data-n="'+i+'">'+STAR+'</label>';
+  $('stars').innerHTML=h;
+  function rating(){var c=document.querySelector('[name=r]:checked');return c?+c.value:0}
+  function paint(){
+    document.documentElement.lang=lang;$('lang').value=lang;
+    document.title=u('h')+' – BUNAVIA';
+    ['h','sub','rate','cm','nm','nmh'].forEach(function(k){$('t_'+k).textContent=u(k)});if(!$('go').disabled)$('go').textContent=u('go');
+    $('t_ok').innerHTML=u('ok');$('cm').placeholder=u('cmp');
+    document.querySelectorAll('.stars label').forEach(function(l){l.setAttribute('aria-label',u('star').replace('{n}',l.dataset.n))});
+    var r=rating();$('rl').textContent=r?u('r')[r]:'';
+    if(info){$('route').textContent=info.route||'';$('refd').textContent=u('ref')+' '+info.reference+(info.dep?' · '+String(info.dep).split('-').reverse().join('.'):'')}
+    var S={loading:['loading',''],done:['twiceH','twiceP'],too_early:['earlyH','earlyP'],not_ticketed:['notH','notP'],not_found:['badH','badP'],off:['offH','offP'],sent:['doneH','doneP']}[state];
+    $('f').hidden=state!=='ok';$('st').hidden=state==='ok';
+    if(S){$('sth').textContent=u(S[0]);$('stp').textContent=S[1]?u(S[1]):'';$('sta').textContent=state==='loading'?'':u('home');
+      $('st').className='state'+(state==='sent'||state==='done'?' ok':'');$('st').querySelector('.ic').textContent=state==='loading'?'…':(state==='sent'||state==='done'?'✓':'!')}
+  }
+  function set(s){state=s;paint()}
+  $('lang').addEventListener('change',function(){lang=this.value;chosen=true;try{localStorage.setItem('bv_lang',lang)}catch(e){}paint()});
+  $('stars').addEventListener('change',function(){$('msg').textContent='';paint()});
+  $('ok').addEventListener('change',function(){$('msg').textContent=''});$('cm').addEventListener('input',function(){$('n').textContent=this.value.length});
+  paint();
+  var sb=null;try{if(window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false}})}catch(e){}
+  if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(tok))return set('not_found');
+  if(!sb)return set('off');
+  sb.rpc('review_info',{p_token:tok}).then(function(r){
+    if(r.error||!r.data)return set('off');
+    info=r.data;
+    if(!chosen&&info.language&&UI[String(info.language).slice(0,2)])lang=String(info.language).slice(0,2);
+    $('nm').value=((info.first_name||'')+(info.last_initial?' '+info.last_initial+'.':'')).trim();
+    set(info.state||'off');
+  }).catch(function(){set('off')});
+  $('f').addEventListener('submit',function(e){
+    e.preventDefault();var m=$('msg'),r=rating();
+    if(!r){m.textContent=u('pick');$('r5').focus();return}
+    if(!$('ok').checked){m.textContent=u('agree');$('ok').focus();return}
+    m.textContent='';var b=$('go');b.disabled=true;b.textContent=u('wait');
+    sb.rpc('submit_review',{p_token:tok,p_rating:r,p_comment:$('cm').value.trim(),p_name:$('nm').value.trim()}).then(function(res){
+      b.disabled=false;b.textContent=u('go');
+      if(res.error){var c=String(res.error.message||'');
+        if(/done/.test(c))return set('done');if(/too_early/.test(c))return set('too_early');if(/not_ticketed/.test(c))return set('not_ticketed');if(/not_found/.test(c))return set('not_found');
+        m.textContent=u('offP');return}
+      set('sent');window.scrollTo(0,0);
+    }).catch(function(){b.disabled=false;b.textContent=u('go');m.textContent=u('offP')});
+  });
+})();
+</script>
+</body>
+</html>
