@@ -8,6 +8,7 @@ var BunaviaETicket = (function () {
       confirmed: 'Booking confirmed – your ticket is issued', ref: 'BUNAVIA reference', pnr: 'Airline booking code', issued: 'Issued on',
       hello: 'Hello', intro: 'Thank you for booking with BUNAVIA. Your ticket is issued. Please keep this e-ticket with you when you travel.',
       out: 'Outbound', ret: 'Return', flight: 'Flight', leg: 'Flight', dur: 'Duration', direct: 'Direct', change: 'Change in', layover: 'waiting time',
+      bagTitle: 'Baggage allowance', bagSub: 'Per passenger (adults and children), on every flight of this booking.', bagSmall: 'Small bag under the seat', bagTrolley: 'Cabin bag up to 8 kg', bagHold: 'Checked bag up to 23 kg', inc: 'Included', notInc: 'Not included', incFare: 'Included in the fare', added: 'Added · {p} per passenger', perPax: 'per passenger', bagAcc: 'According to the fare', bagInfant: 'Infants: the airline’s baggage rules for infants apply.', bagNote: 'Sizes and weights are set by the airline and can differ slightly. Check them on the airline website before you travel.', bagShort: { small: 'small bag', trolley: 'cabin bag 8 kg', hold: 'checked bag 23 kg' },
       cabin: 'Cabin', bag: 'Baggage', bagCabin: 'As included in the fare', bagChecked: '1 checked bag (23 kg) per passenger',
       pax: 'Passengers', name: 'Name', type: 'Type', tkt: 'Ticket number', seat: 'Seats', adult: 'Adult', child: 'Child', infant: 'Infant',
       byAirline: 'Issued by the airline', noSeat: 'At check-in',
@@ -28,6 +29,7 @@ var BunaviaETicket = (function () {
       confirmed: 'Buchung bestätigt – Ihr Ticket ist ausgestellt', ref: 'BUNAVIA-Buchungsnummer', pnr: 'Buchungscode der Airline', issued: 'Ausgestellt am',
       hello: 'Hallo', intro: 'Vielen Dank für Ihre Buchung bei BUNAVIA. Ihr Ticket ist ausgestellt. Bitte führen Sie dieses E-Ticket auf Ihrer Reise mit.',
       out: 'Hinflug', ret: 'Rückflug', flight: 'Flug', leg: 'Flug', dur: 'Dauer', direct: 'Direkt', change: 'Umsteigen in', layover: 'Wartezeit',
+      bagTitle: 'Freigepäck', bagSub: 'Pro Passagier (Erwachsene und Kinder), auf jedem Flug dieser Buchung.', bagSmall: 'Kleine Tasche unter dem Sitz', bagTrolley: 'Handgepäck bis 8 kg', bagHold: 'Aufgabegepäck bis 23 kg', inc: 'Inklusive', notInc: 'Nicht inklusive', incFare: 'Im Tarif inklusive', added: 'Hinzugebucht · {p} pro Passagier', perPax: 'pro Passagier', bagAcc: 'Laut Tarif', bagInfant: 'Babys: Es gelten die Gepäckregeln der Airline für Babys.', bagNote: 'Maße und Gewichte legt die Airline fest; sie können leicht abweichen. Prüfen Sie sie vor der Reise auf der Website der Airline.', bagShort: { small: 'kleine Tasche', trolley: 'Handgepäck 8 kg', hold: 'Aufgabegepäck 23 kg' },
       cabin: 'Klasse', bag: 'Gepäck', bagCabin: 'Wie im Tarif enthalten', bagChecked: '1 Aufgabegepäck (23 kg) pro Passagier',
       pax: 'Passagiere', name: 'Name', type: 'Art', tkt: 'Ticketnummer', seat: 'Sitzplätze', adult: 'Erwachsener', child: 'Kind', infant: 'Kleinkind',
       byAirline: 'Von der Airline ausgestellt', noSeat: 'Beim Check-in',
@@ -48,6 +50,7 @@ var BunaviaETicket = (function () {
       confirmed: 'Réservation confirmée – votre billet est émis', ref: 'Référence BUNAVIA', pnr: 'Code de réservation de la compagnie', issued: 'Émis le',
       hello: 'Bonjour', intro: 'Merci d’avoir réservé avec BUNAVIA. Votre billet est émis. Gardez ce billet électronique avec vous pendant votre voyage.',
       out: 'Aller', ret: 'Retour', flight: 'Vol', leg: 'Vol', dur: 'Durée', direct: 'Direct', change: 'Correspondance à', layover: 'attente',
+      bagTitle: 'Bagages autorisés', bagSub: 'Par passager (adultes et enfants), sur chaque vol de cette réservation.', bagSmall: 'Petit sac sous le siège', bagTrolley: 'Bagage cabine jusqu’à 8 kg', bagHold: 'Bagage en soute jusqu’à 23 kg', inc: 'Inclus', notInc: 'Non inclus', incFare: 'Inclus dans le tarif', added: 'Ajouté · {p} par passager', perPax: 'par passager', bagAcc: 'Selon le tarif', bagInfant: 'Bébés : les règles bagages de la compagnie pour les bébés s’appliquent.', bagNote: 'Les dimensions et poids sont fixés par la compagnie et peuvent varier légèrement. Vérifiez-les sur le site de la compagnie avant le voyage.', bagShort: { small: 'petit sac', trolley: 'bagage cabine 8 kg', hold: 'bagage en soute 23 kg' },
       cabin: 'Classe', bag: 'Bagages', bagCabin: 'Inclus dans le tarif', bagChecked: '1 bagage en soute (23 kg) par passager',
       pax: 'Passagers', name: 'Nom', type: 'Type', tkt: 'Numéro de billet', seat: 'Sièges', adult: 'Adulte', child: 'Enfant', infant: 'Bébé',
       byAirline: 'Émis par la compagnie', noSeat: 'À l’enregistrement',
@@ -68,6 +71,7 @@ var BunaviaETicket = (function () {
       confirmed: 'Rezervimi u konfirmua – bileta juaj është lëshuar', ref: 'Referenca BUNAVIA', pnr: 'Kodi i rezervimit i kompanisë ajrore', issued: 'Lëshuar më',
       hello: 'Përshëndetje', intro: 'Faleminderit që rezervuat me BUNAVIA. Bileta juaj është lëshuar. Mbajeni këtë biletë elektronike me vete gjatë udhëtimit.',
       out: 'Vajtja', ret: 'Kthimi', flight: 'Fluturimi', leg: 'Fluturimi', dur: 'Kohëzgjatja', direct: 'Direkt', change: 'Ndërrim në', layover: 'pritje',
+      bagTitle: 'Bagazhi i lejuar', bagSub: 'Për çdo pasagjer (të rritur dhe fëmijë), në çdo fluturim të këtij rezervimi.', bagSmall: 'Çantë e vogël nën ulëse', bagTrolley: 'Bagazh dore deri në 8 kg', bagHold: 'Bagazh i regjistruar deri në 23 kg', inc: 'I përfshirë', notInc: 'Nuk përfshihet', incFare: 'I përfshirë në tarifë', added: 'I shtuar · {p} për pasagjer', perPax: 'për pasagjer', bagAcc: 'Sipas tarifës', bagInfant: 'Foshnjat: vlejnë rregullat e kompanisë ajrore për bagazhin e foshnjave.', bagNote: 'Përmasat dhe peshat i cakton kompania ajrore dhe mund të ndryshojnë pak. Kontrollojini në faqen e kompanisë para udhëtimit.', bagShort: { small: 'çantë e vogël', trolley: 'bagazh dore 8 kg', hold: 'bagazh i regjistruar 23 kg' },
       cabin: 'Klasa', bag: 'Bagazhi', bagCabin: 'Siç përfshihet në tarifë', bagChecked: '1 bagazh i regjistruar (23 kg) për pasagjer',
       pax: 'Pasagjerët', name: 'Emri', type: 'Lloji', tkt: 'Numri i biletës', seat: 'Ulëset', adult: 'I rritur', child: 'Fëmijë', infant: 'Foshnjë',
       byAirline: 'Lëshohet nga kompania ajrore', noSeat: 'Në check-in',
@@ -110,6 +114,36 @@ var BunaviaETicket = (function () {
     return [{ fn: f.join(' + '), a: trip.from, b: trip.to, ac: trip.from, bc: trip.to, dep: (trip.dep || '') + ' ' + (trip.time || ''), arr: '', dur: trip.duration || '', dir: 'out', al: trip.airline || '' }];
   }
 
+  // What baggage each passenger has. New bookings save extras.bag; older ones only extras.baggage ('cabin' or 'checked').
+  function bagInfo(ex) {
+    var b = ex.bag || null;
+    if (b) return { small: true, trolley: b.cabin === 'trolley' ? true : b.cabin === 'small' ? false : null, hold: b.checked || 'none', unit: Number(b.per_pax_eur || 0) };
+    return { small: true, trolley: null, hold: ex.baggage === 'checked' ? 'added' : 'unknown', unit: 0 };
+  }
+  function bagLine(ex, t) {
+    var g = bagInfo(ex), a = [t.bagShort.small];
+    if (g.trolley) a.push(t.bagShort.trolley);
+    if (g.hold === 'included' || g.hold === 'added') a.push(t.bagShort.hold);
+    if (g.trolley === null && g.hold === 'unknown') return t.bagAcc;
+    return a.join(' + ') + ' (' + t.perPax + ')';
+  }
+  function bagTable(ex, t, pax) {
+    var g = bagInfo(ex), OK = '#14663D', NO = '#8A5A00';
+    function st(on, txt) { return '<span style="display:inline-block;font:700 12px ' + FONT + ';padding:3px 9px;border-radius:999px;display:inline-block;text-align:center;background:' + (on === true ? '#E7F6EE' : on === false ? '#FFF4E0' : '#EEF2F7') + ';color:' + (on === true ? OK : on === false ? NO : MUTED) + '">' + (on === true ? '✓ ' : on === false ? '✕ ' : '') + esc(txt) + '</span>'; }
+    function row(icon, label, status, first) {
+      return '<tr><td style="padding:11px 14px;' + (first ? '' : 'border-top:1px solid ' + LINE + ';') + 'font:400 14px ' + FONT + ';color:' + INK + '"><span style="display:inline-block;width:26px">' + icon + '</span>' + esc(label) + '</td>' +
+        '<td align="right" style="padding:11px 14px;' + (first ? '' : 'border-top:1px solid ' + LINE + ';') + '">' + status + '</td></tr>';
+    }
+    var hold = g.hold === 'included' ? st(true, t.incFare) : g.hold === 'added' ? st(true, g.unit ? t.added.replace('{p}', money(g.unit)) : t.inc) : g.hold === 'none' ? st(false, t.notInc) : st(null, t.bagAcc);
+    var h = '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ' + LINE + ';border-radius:12px;border-collapse:separate">' +
+      row('👜', t.bagSmall, st(true, t.inc), true) +
+      row('🧳', t.bagTrolley, g.trolley === null ? st(null, t.bagAcc) : st(g.trolley, g.trolley ? t.inc : t.notInc)) +
+      row('🛄', t.bagHold, hold) + '</table>';
+    var hasInf = (pax || []).some(function (p) { return p.type === 'infant'; });
+    h += '<div style="font:400 13px/1.5 ' + FONT + ';color:' + MUTED + ';padding:8px 2px 0">' + (hasInf ? esc(t.bagInfant) + ' ' : '') + esc(t.bagNote) + '</div>';
+    return h;
+  }
+
   function cell(label, value, align) {
     return '<td class="et-st" valign="top" style="padding:12px 16px;text-align:' + (align || 'left') + '"><div style="font:400 12px ' + FONT + ';color:' + MUTED + ';text-transform:uppercase;letter-spacing:.06em">' + esc(label) + '</div>' +
       '<div style="font:700 20px ' + FONT + ';color:' + INK + ';margin-top:4px;letter-spacing:.04em">' + value + '</div></td>';
@@ -137,7 +171,7 @@ var BunaviaETicket = (function () {
       '</tr>' +
       '<tr><td colspan="3" style="padding:10px 16px;border-top:1px solid ' + LINE + ';font:400 13px ' + FONT + ';color:' + MUTED + '">' +
         esc(t.cabin) + ': <b style="color:' + INK + '">' + esc((t.classes[trip.cabin] || trip.cabin || t.classes.Economy)) + '</b> &nbsp;·&nbsp; ' +
-        esc(t.bag) + ': <b style="color:' + INK + '">' + esc(((trip.extras || {}).baggage === 'checked') ? t.bagChecked : t.bagCabin) + '</b></td></tr>' +
+        esc(t.bag) + ': <b style="color:' + INK + '">' + esc(bagLine(trip.extras || {}, t)) + '</b></td></tr>' +
       (site(s.fn) ? '<tr><td colspan="3" style="padding:0 16px 12px;font:400 13px ' + FONT + ';color:' + MUTED + '">' + esc(t.checkin) + ': <a href="https://www.' + site(s.fn) + '" style="color:' + BLUE + ';font-weight:700;text-decoration:none">' + esc(site(s.fn)) + '</a></td></tr>' : '') +
       '</table>';
   }
@@ -190,13 +224,17 @@ var BunaviaETicket = (function () {
         '<td valign="top" style="padding:12px 14px;border-top:1px solid ' + LINE + ';font:400 13px ' + FONT + ';color:' + INK + '">' + st + '</td></tr>';
     });
     h += '</table></td></tr>';
+    // baggage
+    h += '<tr><td style="padding:22px 24px 2px;font:700 18px ' + FONT + ';color:' + INK + '">' + esc(t.bagTitle) + '</td></tr>';
+    h += '<tr><td style="padding:0 24px 8px;font:400 13px ' + FONT + ';color:' + MUTED + '">' + esc(t.bagSub) + '</td></tr>';
+    h += '<tr><td style="padding:0 24px">' + bagTable(ex, t, pax) + '</td></tr>';
     // payment
     var bagTot = Number(ex.bag_total_eur || 0), seatTot = Number(ex.seat_total_eur || 0), nSeat = pax.filter(function (p) { return p.type !== 'infant'; }).length || 1;
     var fareTot = Number(b.total_eur || 0) - seatTot - bagTot;
     h += '<tr><td style="padding:22px 24px 8px;font:700 18px ' + FONT + ';color:' + INK + '">' + esc(t.pay) + '</td></tr>';
     h += '<tr><td style="padding:0 24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid ' + LINE + ';border-radius:12px;border-collapse:separate">' +
       '<tr><td style="padding:10px 14px;font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.fare) + (trip.fare_eur ? ' <span style="color:' + MUTED + '">(' + nSeat + ' × ' + esc(money(trip.fare_eur)) + ')</span>' : '') + '</td><td align="right" style="padding:10px 14px;font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(fareTot)) + '</td></tr>' +
-      (bagTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.bags) + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(bagTot)) + '</td></tr>' : '') +
+      (bagTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.bags) + (ex.bag && ex.bag.per_pax_eur ? ' <span style="color:' + MUTED + '">(' + nSeat + ' × ' + esc(money(ex.bag.per_pax_eur)) + ')</span>' : '') + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(bagTot)) + '</td></tr>' : '') +
       (seatTot ? '<tr><td style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(t.seats) + '</td><td align="right" style="padding:10px 14px;border-top:1px solid ' + LINE + ';font:400 14px ' + FONT + ';color:' + INK + '">' + esc(money(seatTot)) + '</td></tr>' : '') +
       '<tr style="background:#F4F7FB"><td style="padding:12px 14px;border-top:1px solid ' + LINE + ';font:700 16px ' + FONT + ';color:' + INK + '">' + esc(t.total) + '<div style="font:400 12px ' + FONT + ';color:' + MUTED + '">' + esc(t.paidWith) + ' ' + esc(t[b.payment_method] || b.payment_method || '') + '</div></td>' +
       '<td align="right" style="padding:12px 14px;border-top:1px solid ' + LINE + ';font:700 20px ' + FONT + ';color:' + INK + '">' + esc(money(b.total_eur)) + '</td></tr></table></td></tr>';
@@ -222,6 +260,7 @@ var BunaviaETicket = (function () {
     segments(trip).forEach(function (s) { out.push((s.dir === 'ret' ? t.ret : t.out) + ': ' + s.fn + ' ' + (s.ac || s.a) + ' (' + s.a + ') ' + s.dep + ' → ' + (s.bc || s.b) + ' (' + s.b + ') ' + (s.arr || '')); });
     out.push('', t.pax + ':');
     (b.passengers || []).forEach(function (p, i) { out.push('- ' + nameOf(p) + (tk[i] ? ' · ' + t.tkt + ' ' + tk[i] : '')); });
+    out.push('', t.bagTitle + ': ' + bagLine(trip.extras || {}, t));
     out.push('', t.total + ': ' + money(b.total_eur));
     if (o && o.link) out.push('', t.view + ': ' + o.link);
     out.push('', t.help + ' Tel. +383 46 100 031 · info@bunavia.com');
@@ -241,13 +280,13 @@ var BunaviaETicket = (function () {
           { fn: 'LH 1285', a: 'ZRH', b: 'MUC', ac: 'Zurich', an: 'Zurich Airport', bc: 'Munich', bn: 'Munich Airport', al: 'Lufthansa', dep: '2026-12-15 17:10', arr: '2026-12-15 18:05', dur: '0h 55m', dir: 'ret' },
           { fn: 'LH 1484', a: 'MUC', b: 'PRN', ac: 'Munich', an: 'Munich Airport', bc: 'Prishtina', bn: 'Prishtina International Adem Jashari', al: 'Lufthansa', dep: '2026-12-15 19:15', arr: '2026-12-15 21:05', dur: '1h 50m', dir: 'ret' }
         ],
-        extras: { baggage: 'checked', seat_total_eur: 45, seats: [
+        extras: { baggage: 'checked', bag_total_eur: 210, bag: { cabin: 'trolley', checked: 'added', kg: 23, per_pax_eur: 70, dirs: 2 }, seat_total_eur: 45, seats: [
           { flight: 'LX 1871', pi: 0, seat: '3A', eur: 15 }, { flight: 'LX 1871', pi: 1, seat: '3B', eur: 15 }, { flight: 'LX 1871', pi: 2, seat: '3C', eur: 15 }
         ] }
       }
     };
   }
 
-  return { render: render, subject: subject, text: text, demo: demo, site: site, langs: Object.keys(L) };
+  return { render: render, subject: subject, text: text, demo: demo, site: site, bagLine: bagLine, langs: Object.keys(L) };
 })();
 if (typeof module !== 'undefined' && module.exports) module.exports = BunaviaETicket;

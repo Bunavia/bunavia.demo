@@ -56,6 +56,7 @@ td.nw{white-space:nowrap}
 .st.pending_payment,.st.new{background:#FFF1D6;color:#8A5A00}
 .st.paid,.st.in_progress,.st.offer_sent{background:#E3EEFC;color:#174EA6}
 .st.ticketed,.st.done,.st.booked{background:#E3F4EA;color:#1F7A4D}
+.st.pending{background:#FFF1D6;color:#8A5A00}.st.published{background:#E3F4EA;color:#1F7A4D}.st.hidden{background:#F1F3F6;color:#5A6B80}
 .st.cancelled,.st.rejected,.st.closed{background:#F1F3F6;color:#5A6B80}
 .empty{padding:30px;text-align:center;color:var(--muted)}
 dialog{border:0;border-radius:16px;padding:0;width:min(860px,calc(100% - 16px));max-height:calc(100dvh - 16px);overflow:auto}
@@ -138,7 +139,7 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   function dt(v){if(!v)return '';var d=new Date(v),z=function(n){return ('0'+n).slice(-2)};return z(d.getDate())+'.'+z(d.getMonth()+1)+'.'+d.getFullYear()+' '+z(d.getHours())+':'+z(d.getMinutes())}
   function eur(v){return '€'+Number(v||0).toFixed(2)}
   var sb=window.supabase?window.supabase.createClient(SB_URL,SB_KEY):null,me=null,data={},cur='bookings';
-  var ST={pending_payment:'Pret pagesën',paid:'E paguar',ticketed:'Bileta e lëshuar',cancelled:'Anuluar',new:'E re',in_progress:'Në punë',done:'E kryer',rejected:'Refuzuar',offer_sent:'Oferta u dërgua',booked:'U rezervua',closed:'Mbyllur'};
+  var ST={pending_payment:'Pret pagesën',paid:'E paguar',ticketed:'Bileta e lëshuar',cancelled:'Anuluar',new:'E re',in_progress:'Në punë',done:'E kryer',rejected:'Refuzuar',offer_sent:'Oferta u dërgua',booked:'U rezervua',closed:'Mbyllur',pending:'Në pritje',published:'Publikuar',hidden:'Fshehur'};
   function badge(s){return '<span class="st '+esc(s)+'">'+esc(ST[s]||s)+'</span>'}
   var KIND={change:'Ndryshim',cancel:'Anulim',invoice:'Faturë',other:'Tjetër'};
 
@@ -161,14 +162,19 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
       row:function(a){return [dt(a.created_at),esc(a.email),esc(a.origin+' → '+a.destination),esc(a.depart_date+(a.return_date?' / '+a.return_date:'')),(a.adults+a.children+a.infants),a.price_eur!=null?eur(a.price_eur):'',
         '<label><input type="checkbox" data-alert="'+a.id+'"'+(a.active?' checked':'')+'> aktive</label>']},
       text:function(a){return a.email+' '+a.origin+' '+a.destination}},
-    emails:{t:'Emailet e dërguara',table:'email_log',order:'created_at',flt:[['','Të gjitha'],['message','Mesazh'],['reply','Përgjigje'],['offer','Ofertë'],['reminder','Kujtesë']],fk:'kind',
+    emails:{t:'Emailet e dërguara',table:'email_log',order:'created_at',flt:[['','Të gjitha'],['message','Mesazh'],['reply','Përgjigje'],['offer','Ofertë'],['reminder','Kujtesë'],['review','Vlerësim']],fk:'kind',
       cols:['Dërguar','Lloji','Për','Tema','Nga','OK'],
-      row:function(e){var K={message:'Mesazh',reply:'Përgjigje',offer:'Ofertë',reminder:'Kujtesë check-in'};return [dt(e.created_at),esc(K[e.kind]||e.kind),esc(e.to_email),esc(e.subject)+(e.body?'<br><small style="color:#4C5E73">'+esc(e.body.slice(0,160))+'</small>':''),esc(e.agent_name||''),e.ok?'✔':'✖']},
+      row:function(e){var K={message:'Mesazh',reply:'Përgjigje',offer:'Ofertë',reminder:'Kujtesë check-in',review:'Kërkesë vlerësimi'};return [dt(e.created_at),esc(K[e.kind]||e.kind),esc(e.to_email),esc(e.subject)+(e.body?'<br><small style="color:#4C5E73">'+esc(e.body.slice(0,160))+'</small>':''),esc(e.agent_name||''),e.ok?'✔':'✖']},
       text:function(e){return [e.to_email,e.subject,e.body,e.agent_name].join(' ')}},
     club:{t:'BUNAVIA Club',table:'club_waitlist',order:'created_at',cols:['Regjistruar','Email','Gjuha'],row:function(c){return [dt(c.created_at),esc(c.email),esc(c.language||'')]},text:function(c){return c.email}},
     news:{t:'Newsletter',table:'newsletter_signups',order:'created_at',cols:['Regjistruar','Email','Gjuha'],row:function(c){return [dt(c.created_at),esc(c.email),esc(c.language||'')]},text:function(c){return c.email}},
     agencies:{t:'Agjenci partnere',table:'agency_requests',order:'created_at',cols:['Krijuar','Kompania','Qyteti','Personi','Kontakti','IATA','Lloji','Mesazhi'],
-      row:function(a){return [dt(a.created_at),esc(a.company),esc(a.country_city||''),esc(a.contact_person||''),esc(a.email)+'<br><small>'+esc(a.phone||'')+'</small>',esc(a.iata||''),esc(a.business_type||''),esc(a.message||'')]},text:function(a){return [a.company,a.email,a.contact_person].join(' ')}}
+      row:function(a){return [dt(a.created_at),esc(a.company),esc(a.country_city||''),esc(a.contact_person||''),esc(a.email)+'<br><small>'+esc(a.phone||'')+'</small>',esc(a.iata||''),esc(a.business_type||''),esc(a.message||'')]},text:function(a){return [a.company,a.email,a.contact_person].join(' ')}},
+    reviews:{t:'Vlerësimet',table:'reviews',order:'created_at',flt:[['pending','Në pritje'],['','Të gjitha'],['published','Publikuar'],['hidden','Fshehur']],fk:'status',
+      cols:['Krijuar','Yjet','Komenti','Emri / Linja','Rezervimi','Statusi','Përgjigja e BUNAVIA'],
+      row:function(r){var bk=(data.bookings||[]).filter(function(x){return x.id===r.booking_id})[0];return [dt(r.created_at),'<b style="color:#B7791F;font-size:16px;letter-spacing:1px">'+'★★★★★'.slice(0,r.rating)+'</b><span style="color:#C9D4E2;font-size:16px;letter-spacing:1px">'+'★★★★★'.slice(r.rating)+'</span><br><small>'+r.rating+'/5</small>',esc(r.comment||'–')+(r.language?'<br><small>'+esc(r.language)+'</small>':''),esc(r.display_name)+'<br><small>'+esc(r.route||'')+(r.travel_month?' · '+esc(r.travel_month):'')+'</small>',bk?'<b class="mono">'+esc(bk.reference)+'</b><br><small>'+esc(bk.contact_email)+'</small>':'',statusSel('reviews',r.id,r.status,['pending','published','hidden'])+(r.published_at?'<br><small>'+dt(r.published_at)+'</small>':''),
+        '<textarea class="i" rows="3" maxlength="1000" style="min-width:220px;width:100%" data-repv="'+esc(r.id)+'" placeholder="Opsionale – shfaqet nën vlerësim">'+esc(r.reply||'')+'</textarea><br><button class="btn sm" type="button" data-rep="'+esc(r.id)+'" style="margin-top:6px">Ruaj përgjigjen</button>']},
+      text:function(r){return [r.display_name,r.comment,r.route,r.reply].join(' ')}}
   };
   function statusSel(table,id,val,opts){return '<select class="i" style="min-width:150px" data-st="'+table+'" data-id="'+esc(id)+'">'+opts.map(function(o){return '<option value="'+o+'"'+(o===val?' selected':'')+'>'+esc(ST[o]||o)+'</option>'}).join('')+'</select>'}
 
@@ -213,7 +219,7 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
     var h='<div class="box"><h3>Udhëtimi</h3><div class="kv"><span>Lloji</span><b>'+esc(t.trip||'')+'</b><span>Datat</span><b>'+esc((t.dep||'')+(t.ret?' / '+t.ret:''))+'</b><span>Kompania</span><b>'+esc(t.airline||'')+'</b><span>Fluturimet</span><b class="mono">'+esc(t.flights||'')+'</b><span>Klasa</span><b>'+esc(t.cabin||'')+'</b></div>';
     if(segs.length)h+='<div style="margin-top:8px">'+segs.map(function(s){return '<div class="seg mono">'+esc(s.fn)+' · '+esc(s.a)+' '+esc((s.dep||'').slice(5))+' → '+esc(s.b)+' '+esc((s.arr||'').slice(5))+'</div>'}).join('')+'</div>';
     h+='</div><div class="box"><h3>Pasagjerët</h3><table class="pax"><tr><th>#</th><th>Mbiemri / Emri</th><th>Lloji</th><th>Gjinia</th><th>Lindja</th></tr>'+(b.passengers||[]).map(function(p,i){return '<tr><td>'+(i+1)+'</td><td><b>'+esc(String(p.last||'').toUpperCase())+'</b> / '+esc(p.first||'')+'</td><td>'+esc(p.type||'')+'</td><td>'+esc(p.gender||'')+'</td><td>'+esc(p.dob||'')+'</td></tr>'}).join('')+'</table></div>';
-    h+='<div class="box"><h3>Shtesat & pagesa</h3><div class="kv"><span>Bagazhi</span><b>'+esc(ex.baggage==='checked'?'1 i regjistruar për pasagjer':'Vetëm i përfshirë')+(ex.bag_total_eur?' ('+eur(ex.bag_total_eur)+')':'')+'</b><span>Ulëset</span><b>'+((ex.seats||[]).map(function(s){return esc(s.flight+' '+s.seat+' – '+(s.passenger||''))}).join('<br>')||'–')+'</b>'+
+    h+='<div class="box"><h3>Shtesat & pagesa</h3><div class="kv"><span>Bagazhi</span><b>'+(ex.bag?'Çantë e vogël ✓<br>Bagazh dore 8 kg '+(ex.bag.cabin==='trolley'?'✓':'✕')+'<br>I regjistruar 23 kg '+(ex.bag.checked==='included'?'✓ në tarifë':ex.bag.checked==='added'?'✓ i shtuar ('+eur(ex.bag.per_pax_eur)+' × pasagjer = '+eur(ex.bag_total_eur||0)+')':'✕')+'<br><small>për pasagjer, në çdo fluturim</small>':esc(ex.baggage==='checked'?'1 i regjistruar për pasagjer':'Vetëm i përfshirë')+(ex.bag_total_eur?' ('+eur(ex.bag_total_eur)+')':''))+'</b><span>Ulëset</span><b>'+((ex.seats||[]).map(function(s){return esc(s.flight+' '+s.seat+' – '+(s.passenger||''))}).join('<br>')||'–')+'</b>'+
       '<span>Kërkesa</span><b>'+esc(ex.requests||'–')+'</b><span>Faturë</span><b>'+(ex.invoice?esc([ex.invoice.company,ex.invoice.vat,ex.invoice.address].filter(Boolean).join(', ')):'–')+'</b><span>Sigurim udhëtimi</span><b>'+(ex.insurance_offer?'⚠ Klienti kërkon ofertë':'–')+'</b><span>Pagesa</span><b>'+esc(({card:'Kartelë',apple_pay:'Apple Pay',google_pay:'Google Pay',bank_transfer:'Transfer bankar',office:'Në zyrë'})[b.payment_method]||b.payment_method)+' · '+eur(b.total_eur)+'</b><span>Gjuha</span><b>'+esc(b.language||'')+'</b></div></div>';
     h+='<div class="box"><h3>Kontakti</h3><div class="kv"><span>Email</span><a href="mailto:'+esc(b.contact_email)+'">'+esc(b.contact_email)+'</a><span>Telefoni</span><a href="https://wa.me/'+esc(String(b.contact_phone).replace(/\D/g,''))+'" target="_blank" rel="noopener">'+esc(b.contact_phone)+' (WhatsApp)</a><span>Krijuar</span><b>'+dt(b.created_at)+'</b>'+(b.updated_by?'<span>Ndryshuar</span><b>'+esc(b.updated_by)+' · '+dt(b.updated_at)+'</b>':'')+'</div></div>';
     $('bdl').innerHTML=h;
@@ -289,10 +295,13 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   $('tb').addEventListener('keydown',function(e){if(e.key==='Enter'){var tr=e.target.closest('tr[data-i]');if(tr)V[cur].open(data[cur][+tr.dataset.i])}});
   $('tb').addEventListener('change',function(e){
     var s=e.target.closest('[data-st]'),a=e.target.closest('[data-alert]');
-    if(s){var key=s.dataset.st==='change_requests'?'changes':'groups';sb.from(s.dataset.st).update({status:s.value}).eq('id',s.dataset.id).select('*').then(function(r){if(r.error||!r.data.length){$('amsg').className='msg err';$('amsg').textContent='Nuk u ruajt.';return}
+    if(s){var key=s.dataset.st==='change_requests'?'changes':s.dataset.st==='reviews'?'reviews':'groups';sb.from(s.dataset.st).update({status:s.value}).eq('id',s.dataset.id).select('*').then(function(r){if(r.error||!r.data.length){$('amsg').className='msg err';$('amsg').textContent='Nuk u ruajt.';return}
       var arr=data[key];for(var i=0;i<arr.length;i++)if(String(arr[i].id)===String(s.dataset.id))arr[i]=r.data[0];kpis();render()})}
     if(a){sb.from('price_alerts').update({active:a.checked}).eq('id',a.dataset.alert).select('id,active').then(function(r){if(r.error){$('amsg').className='msg err';$('amsg').textContent='Nuk u ruajt.'}else{data.alerts.forEach(function(x){if(String(x.id)===a.dataset.alert)x.active=a.checked})}})}
   });
+  $('tb').addEventListener('click',function(e){var b=e.target.closest('[data-rep]');if(!b)return;var id=b.dataset.rep,v=(document.querySelector('[data-repv="'+id+'"]')||{}).value||'';
+    b.disabled=true;sb.from('reviews').update({reply:v.trim()||null}).eq('id',id).select('*').then(function(r){b.disabled=false;if(r.error||!r.data||!r.data.length){$('amsg').className='msg err';$('amsg').textContent='Përgjigja nuk u ruajt.';return}
+      data.reviews.forEach(function(x,i){if(String(x.id)===String(id))data.reviews[i]=r.data[0]});$('amsg').className='msg ok';$('amsg').textContent='Përgjigja u ruajt.'+(r.data[0].status==='published'?' Shfaqet në faqe.':' Shfaqet kur vlerësimi publikohet.')})});
   $('rl').addEventListener('click',load);
   $('csv').addEventListener('click',function(){
     var rows=filtered();if(!rows.length)return;var keys=Object.keys(rows[0]).filter(function(k){return k!=='ticket_token'});
