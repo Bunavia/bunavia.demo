@@ -17,7 +17,7 @@ html,body{margin:0;background:#EEF2F7;color:#0F1C2E;font:400 16px/1.5 Roboto,sys
 .bar{position:sticky;top:0;z-index:5;background:#0B1730;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px max(16px,calc((100% - 680px)/2))}
 .bar a.home{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.12em;display:flex;align-items:center;gap:8px}
 .bar a.home img{width:30px;height:28px}
-.tools{display:flex;gap:8px;align-items:center}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
 .tools select,.tools button{font:500 14px Roboto,system-ui,sans-serif;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;padding:7px 12px;cursor:pointer}
 .tools select option{color:#0F1C2E}
 .tools button.pr{background:#F5A524;border-color:#F5A524;color:#0F1C2E;font-weight:700}
@@ -31,7 +31,7 @@ main{min-height:60vh}
 .msg{margin-top:12px;font-weight:600;color:#B42318}.msg:empty{display:none}
 .msg.info{color:#1D6FD8}
 :focus-visible{outline:3px solid #8FB4DE;outline-offset:2px}
-@media (max-width:480px){.bar .home span{display:none}.tools select{max-width:110px}}
+@media (max-width:480px){.bar .home span{display:none}.tools select{max-width:96px}.tools button{padding:7px 10px;font-size:13px}#cal .cl{display:none}}
 @media print{
   @page{size:A4;margin:8mm}
   html,body{background:#fff}
@@ -48,6 +48,7 @@ main{min-height:60vh}
   <a class="home" href="/"><img src="eticket-logo.png" alt=""><span>BUNAVIA</span></a>
   <div class="tools" id="tools" hidden>
     <select id="lang" aria-label="Language"><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="sq">Shqip</option></select>
+    <button type="button" id="cal">📅</button>
     <button type="button" class="pr" id="print">PDF</button>
   </div>
 </div>
@@ -72,22 +73,22 @@ main{min-height:60vh}
   var UI={
     en:{lt:'Find your e-ticket',lp:'Enter your booking reference and the last name of one passenger.',lr:'Booking reference',ll:'Last name',lb:'Show e-ticket',
         wait:'Please wait...',nf:'We could not find an issued ticket with these details. If you paid recently, your ticket may not be issued yet. Call us on +383 46 100 031.',
-        fill:'Please enter the booking reference and last name.',off:'The e-ticket service is not available right now. Please try again later or contact info@bunavia.com.',pdf:'Print / PDF',bad:'This e-ticket link is not valid or the ticket is not issued yet.'},
+        fill:'Please enter the booking reference and last name.',off:'The e-ticket service is not available right now. Please try again later or contact info@bunavia.com.',pdf:'Print / PDF',cal:'Add to calendar',bad:'This e-ticket link is not valid or the ticket is not issued yet.'},
     de:{lt:'E-Ticket finden',lp:'Geben Sie Ihre Buchungsnummer und den Nachnamen eines Passagiers ein.',lr:'Buchungsnummer',ll:'Nachname',lb:'E-Ticket anzeigen',
         wait:'Bitte warten...',nf:'Wir haben kein ausgestelltes Ticket mit diesen Angaben gefunden. Wenn Sie gerade bezahlt haben, ist Ihr Ticket vielleicht noch nicht ausgestellt. Rufen Sie uns an: +383 46 100 031.',
-        fill:'Bitte Buchungsnummer und Nachnamen eingeben.',off:'Der E-Ticket-Dienst ist gerade nicht verfügbar. Bitte später erneut versuchen oder info@bunavia.com kontaktieren.',pdf:'Drucken / PDF',bad:'Dieser E-Ticket-Link ist ungültig oder das Ticket ist noch nicht ausgestellt.'},
+        fill:'Bitte Buchungsnummer und Nachnamen eingeben.',off:'Der E-Ticket-Dienst ist gerade nicht verfügbar. Bitte später erneut versuchen oder info@bunavia.com kontaktieren.',pdf:'Drucken / PDF',cal:'Zum Kalender',bad:'Dieser E-Ticket-Link ist ungültig oder das Ticket ist noch nicht ausgestellt.'},
     fr:{lt:'Trouver votre billet',lp:'Saisissez votre référence de réservation et le nom de famille d’un passager.',lr:'Référence de réservation',ll:'Nom de famille',lb:'Afficher le billet',
         wait:'Veuillez patienter...',nf:'Nous n’avons trouvé aucun billet émis avec ces informations. Si vous venez de payer, votre billet n’est peut-être pas encore émis. Appelez-nous au +383 46 100 031.',
-        fill:'Saisissez la référence et le nom de famille.',off:'Le service de billets n’est pas disponible pour le moment. Réessayez plus tard ou écrivez à info@bunavia.com.',pdf:'Imprimer / PDF',bad:'Ce lien n’est pas valable ou le billet n’est pas encore émis.'},
+        fill:'Saisissez la référence et le nom de famille.',off:'Le service de billets n’est pas disponible pour le moment. Réessayez plus tard ou écrivez à info@bunavia.com.',pdf:'Imprimer / PDF',cal:'Ajouter au calendrier',bad:'Ce lien n’est pas valable ou le billet n’est pas encore émis.'},
     sq:{lt:'Gjeni biletën tuaj',lp:'Shkruani referencën e rezervimit dhe mbiemrin e një pasagjeri.',lr:'Referenca e rezervimit',ll:'Mbiemri',lb:'Shfaq biletën',
         wait:'Ju lutemi prisni...',nf:'Nuk gjetëm biletë të lëshuar me këto të dhëna. Nëse sapo keni paguar, bileta mund të mos jetë lëshuar ende. Na telefononi në +383 46 100 031.',
-        fill:'Ju lutemi shkruani referencën dhe mbiemrin.',off:'Shërbimi i biletave nuk është i disponueshëm tani. Provoni më vonë ose shkruani në info@bunavia.com.',pdf:'Printo / PDF',bad:'Ky link i biletës nuk është i vlefshëm ose bileta nuk është lëshuar ende.'}
+        fill:'Ju lutemi shkruani referencën dhe mbiemrin.',off:'Shërbimi i biletave nuk është i disponueshëm tani. Provoni më vonë ose shkruani në info@bunavia.com.',pdf:'Printo / PDF',cal:'Shto në kalendar',bad:'Ky link i biletës nuk është i vlefshëm ose bileta nuk është lëshuar ende.'}
   };
   function $(i){return document.getElementById(i)}
   var lang='en',data=null,test=false;
   try{var s=localStorage.getItem('bv_lang');if(UI[s])lang=s;else{var n=(navigator.language||'').slice(0,2);if(UI[n])lang=n}}catch(e){}
   function u(k){return (UI[lang]||UI.en)[k]}
-  function applyUI(){document.documentElement.lang=lang;['lt','lp','lr','ll','lb'].forEach(function(k){$(k).textContent=u(k)});$('print').textContent=u('pdf');$('lang').value=lang}
+  function applyUI(){document.documentElement.lang=lang;['lt','lp','lr','ll','lb'].forEach(function(k){$(k).textContent=u(k)});$('print').textContent=u('pdf');$('cal').innerHTML='📅<span class="cl"> '+u('cal')+'</span>';$('cal').setAttribute('aria-label',u('cal'));$('cal').title=u('cal');$('lang').value=lang}
   function show(b){
     data=b;if(b.language&&UI[String(b.language).slice(0,2)]&&!show.chosen)lang=String(b.language).slice(0,2);
     applyUI();$('look').hidden=true;$('tools').hidden=false;
@@ -97,6 +98,8 @@ main{min-height:60vh}
   function ask(m,cls){applyUI();$('look').hidden=false;$('tools').hidden=true;$('ticket').innerHTML='';var g=$('msg');g.className='msg'+(cls?' '+cls:'');g.textContent=m||''}
   $('lang').addEventListener('change',function(){lang=this.value;show.chosen=true;try{localStorage.setItem('bv_lang',lang)}catch(e){}if(data)show(data);else applyUI()});
   $('print').addEventListener('click',function(){window.print()});
+  $('cal').addEventListener('click',function(){if(!data)return;var c=BunaviaETicket.ics(data,{lang:lang});if(!c)return;
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/calendar;charset=utf-8'}));a.download='BUNAVIA-'+data.reference+'.ics';document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500)});
 
   var sb=null;try{if(window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY)}catch(e){}
   function byRef(ref,last){

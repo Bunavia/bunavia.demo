@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Newsletter – BUNAVIA</title>
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:#EEF2F7;color:#0F1C2E;font:400 16px/1.5 Roboto,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#0B1730;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px max(16px,calc((100% - 680px)/2))}
+.bar a.home{color:#fff;text-decoration:none;font-weight:700;letter-spacing:.12em;display:flex;align-items:center;gap:8px}
+.bar a.home img{width:30px;height:28px}
+.bar select{font:500 14px Roboto,system-ui,sans-serif;border-radius:999px;border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;padding:7px 12px;cursor:pointer}
+.bar select option{color:#0F1C2E}
+.box{max-width:520px;margin:32px auto;background:#fff;border-radius:16px;padding:24px;box-shadow:0 8px 30px rgba(15,28,46,.08)}
+@media (max-width:560px){.box{margin:16px;padding:20px}}
+h1{font-size:22px;margin:0 0 4px}
+.sub{color:#4C5E73;margin:0 0 18px;font-size:15px}
+.trip{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;background:#F4F8FD;border:1px solid #DCE8F6;border-radius:12px;padding:12px 14px;margin-bottom:18px;font-size:15px}
+.trip b{color:#0F1C2E}.trip span{color:#4C5E73}
+fieldset{border:0;margin:0;padding:0}
+legend,label.l{display:block;font-weight:700;font-size:15px;margin:0 0 6px}
+.stars{display:flex;gap:6px;flex-direction:row-reverse;justify-content:flex-end}
+.stars input{position:absolute;opacity:0;width:1px;height:1px}
+.stars label{cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:10px}
+.stars svg{width:36px;height:36px;fill:#D5DEEA;transition:fill .12s}
+.stars input:checked~label svg{fill:#F5A524}
+@media(hover:hover){.stars label:hover svg,.stars label:hover~label svg{fill:#F8BE57}}
+.stars input:focus-visible+label{outline:3px solid #8FB4DE;outline-offset:2px}
+.rl{min-height:22px;color:#4C5E73;font-size:14px;margin:4px 0 16px}
+textarea,input[type=text]{width:100%;font:400 16px Roboto,system-ui,sans-serif;border:1px solid #C9D4E2;border-radius:10px;padding:11px 12px;color:#0F1C2E}
+textarea{min-height:120px;resize:vertical}
+.cnt{text-align:right;color:#6B7B8F;font-size:13px;margin:2px 0 12px}
+.hint{color:#6B7B8F;font-size:13px;margin:4px 0 14px}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#33475C;margin:8px 0 4px}
+.ck input{width:20px;height:20px;margin:1px 0 0;flex:none}
+.ck a{color:#1D6FD8}
+button{margin-top:16px;width:100%;font:700 16px Roboto,system-ui,sans-serif;border:0;border-radius:10px;padding:13px;background:#1D6FD8;color:#fff;cursor:pointer}
+button[disabled]{opacity:.6;cursor:default}
+.msg{margin-top:12px;font-weight:600;color:#B42318}.msg:empty{display:none}
+.state{text-align:center;padding:10px 0}
+.state .ic{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;background:#E8F1FC;color:#1D6FD8;font-size:28px;font-weight:700}
+.state.ok .ic{background:#E7F6EC;color:#1E7B3A}
+.state p{color:#4C5E73}
+.state a{display:inline-block;margin-top:8px;color:#1D6FD8;font-weight:700;text-decoration:none}
+:focus-visible{outline:3px solid #8FB4DE;outline-offset:2px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="bar">
+  <a class="home" href="/"><img src="eticket-logo.png" alt=""><span>BUNAVIA</span></a>
+  <select id="lang" aria-label="Language"><option value="en">English</option><option value="de">Deutsch</option><option value="fr">Français</option><option value="sq">Shqip</option></select>
+</div>
+<main class="box" id="main">
+  <div id="st" class="state"><div class="ic">…</div><h1 id="sth"></h1><p id="stp"></p><a id="sta" href="/"></a></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  var SB_URL='https://sxhmsjnyddzdbexmrkok.supabase.co',SB_KEY='sb_publishable_Bq1gCMyeOtKvWzfjRb6hHw_dvPe2_ZQ';
+  var UI={
+    en:{loading:'Please wait...',okH:'Thank you, your subscription is confirmed',okP:'You will receive our flight deals by email. Every email has a link to unsubscribe.',alreadyH:'Your subscription is already confirmed',alreadyP:'There is nothing more to do.',removedH:'You are unsubscribed',removedP:'We have deleted your email address from our list. You will not receive more offers.',badH:'This link is not valid',badP:'It may have been used already. Questions? info@bunavia.com',offH:'This service is not available right now',offP:'Please try again later or write to info@bunavia.com.',home:'Back to bunavia.com'},
+    de:{loading:'Bitte warten...',okH:'Danke, Ihre Anmeldung ist bestätigt',okP:'Sie erhalten unsere Flugangebote per E-Mail. Jede E-Mail enthält einen Link zum Abmelden.',alreadyH:'Ihre Anmeldung ist bereits bestätigt',alreadyP:'Sie müssen nichts weiter tun.',removedH:'Sie sind abgemeldet',removedP:'Wir haben Ihre E-Mail-Adresse aus unserer Liste gelöscht. Sie erhalten keine weiteren Angebote.',badH:'Dieser Link ist ungültig',badP:'Er wurde vielleicht schon verwendet. Fragen? info@bunavia.com',offH:'Dieser Dienst ist gerade nicht verfügbar',offP:'Bitte versuchen Sie es später erneut oder schreiben Sie an info@bunavia.com.',home:'Zurück zu bunavia.com'},
+    fr:{loading:'Veuillez patienter...',okH:'Merci, votre inscription est confirmée',okP:'Vous recevrez nos offres de vols par e-mail. Chaque e-mail contient un lien de désinscription.',alreadyH:'Votre inscription est déjà confirmée',alreadyP:'Vous n’avez rien d’autre à faire.',removedH:'Vous êtes désinscrit',removedP:'Nous avons supprimé votre adresse e-mail de notre liste. Vous ne recevrez plus d’offres.',badH:'Ce lien n’est pas valable',badP:'Il a peut-être déjà été utilisé. Questions ? info@bunavia.com',offH:'Ce service n’est pas disponible pour le moment',offP:'Réessayez plus tard ou écrivez à info@bunavia.com.',home:'Retour à bunavia.com'},
+    sq:{loading:'Ju lutemi prisni...',okH:'Faleminderit, regjistrimi u konfirmua',okP:'Do t’i merrni ofertat tona të fluturimeve me email. Çdo email ka një link për t’u çregjistruar.',alreadyH:'Regjistrimi juaj është konfirmuar tashmë',alreadyP:'Nuk keni nevojë të bëni asgjë tjetër.',removedH:'U çregjistruat',removedP:'E kemi fshirë adresën tuaj të emailit nga lista. Nuk do të merrni më oferta.',badH:'Ky link nuk është i vlefshëm',badP:'Mund të jetë përdorur tashmë. Pyetje? info@bunavia.com',offH:'Ky shërbim nuk është i disponueshëm tani',offP:'Provoni më vonë ose shkruani në info@bunavia.com.',home:'Kthehu te bunavia.com'}
+  };
+  function $(i){return document.getElementById(i)}
+  var q=new URLSearchParams(location.search),tok=q.get('t')||'',act=q.get('a')==='unsubscribe'?'unsubscribe':'confirm',lang='en',state='loading';
+  try{var s=localStorage.getItem('bv_lang');if(UI[s])lang=s;else{var n=(navigator.language||'').slice(0,2);if(UI[n])lang=n}}catch(e){}
+  function u(k){return (UI[lang]||UI.en)[k]}
+  function paint(){document.documentElement.lang=lang;$('lang').value=lang;
+    var S={loading:['loading',''],ok:['okH','okP'],already:['alreadyH','alreadyP'],removed:['removedH','removedP'],not_found:['badH','badP'],off:['offH','offP']}[state];
+    $('sth').textContent=u(S[0]);$('stp').textContent=S[1]?u(S[1]):'';$('sta').textContent=state==='loading'?'':u('home');document.title=$('sth').textContent+' – BUNAVIA';
+    var good=state==='ok'||state==='already'||state==='removed';$('st').className='state'+(good?' ok':'');$('st').querySelector('.ic').textContent=state==='loading'?'…':good?'✓':'!'}
+  function set(x){state=x;paint()}
+  $('lang').addEventListener('change',function(){lang=this.value;try{localStorage.setItem('bv_lang',lang)}catch(e){}paint()});
+  paint();
+  if(!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(tok))return set('not_found');
+  var sb=null;try{if(window.supabase)sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:false}})}catch(e){}
+  if(!sb)return set('off');
+  sb.rpc(act==='unsubscribe'?'newsletter_unsubscribe':'newsletter_confirm',{p_token:tok}).then(function(r){
+    if(r.error)return set('off');set(['ok','already','removed','not_found'].indexOf(r.data)>-1?r.data:'off');
+  }).catch(function(){set('off')});
+})();
+</script>
+</body>
+</html>
