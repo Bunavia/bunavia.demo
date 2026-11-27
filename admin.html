@@ -167,6 +167,14 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
       cols:['Referenca','Krijuar','Linja','Datat','Pasagjerë','Totali','Statusi','Kontakti'],
       row:function(b){var t=b.trip||{},p=b.passengers||[];return ['<b class="mono">'+esc(b.reference)+'</b>',dt(b.created_at),esc((t.from||'')+' → '+(t.to||'')),esc((t.dep||'')+(t.ret?' / '+t.ret:'')),p.length+'<br><small>'+esc(p[0]?(p[0].first+' '+p[0].last):'')+'</small>',eur(b.total_eur),badge(b.status),esc(b.contact_email)+'<br><small>'+esc(b.contact_phone)+'</small>']},
       text:function(b){return [b.reference,b.contact_email,b.contact_phone,JSON.stringify(b.passengers),b.airline_pnr].join(' ')},open:openBooking},
+    customers:{t:'Klientët e regjistruar',rpc:'customer_list',flt:[['','Të gjithë'],['book','Me rezervime'],['paid','Kanë paguar'],['none','Pa rezervim'],['unconf','Email i pakonfirmuar'],['agent','Agjentët']],fk:'id',
+      match:function(c,f){return f==='book'?c.bookings>0:f==='paid'?c.bookings_paid>0:f==='none'?!c.bookings:f==='unconf'?!c.email_confirmed:f==='agent'?c.is_agent:true},
+      cols:['Regjistruar','Emri','Email','Telefoni','Gjuha','Hyrja e fundit','Rezervime','Paguar','Udhëtarë të ruajtur'],
+      row:function(c){return [dt(c.created_at),'<b>'+esc(((c.first_name||'')+' '+(c.last_name||'')).trim()||'–')+'</b>'+(c.is_agent?' <span class="st paid">Agjent</span>':''),esc(c.email)+(c.email_confirmed?' <span title="Email i konfirmuar" style="color:#1F7A4D">✓</span>':'<br><small style="color:#B42318">pa konfirmuar</small>'),
+        c.phone?'<a href="tel:'+esc(String(c.phone).replace(/[^+\d]/g,''))+'">'+esc(c.phone)+'</a>':'–',esc((c.language||'').toUpperCase()),c.last_sign_in_at?dt(c.last_sign_in_at):'–',
+        c.bookings?'<b>'+c.bookings+'</b>'+(c.last_booking_at?'<br><small>e fundit '+dt(c.last_booking_at).slice(0,10)+'</small>':''):'0',c.bookings_paid?'<b>'+eur(c.spent_eur)+'</b><br><small>'+c.bookings_paid+' rezervime</small>':'–',c.saved_travellers||0]},
+      text:function(c){return [c.first_name,c.last_name,c.email,c.phone].join(' ')},
+      open:function(c){$('q').value=c.email||'';setTab('bookings')}},
     changes:{t:'Ndryshime & anulime',table:'change_requests',order:'created_at',flt:[['open','Të hapura'],['','Të gjitha'],['new','E re'],['in_progress','Në punë'],['done','E kryer'],['rejected','Refuzuar']],fk:'status',
       cols:['Referenca','Krijuar','Lloji','Mesazhi','Statusi','Veprimi'],
       row:function(c){return ['<b class="mono">'+esc(c.reference)+'</b>',dt(c.created_at),esc(KIND[c.kind]||c.kind),esc(c.message),badge(c.status),statusSel('change_requests',c.id,c.status,['new','in_progress','done','rejected'])+'<br><button class="btn sm" type="button" data-msg="change" data-id="'+esc(c.id)+'" style="margin-top:6px">Përgjigju me email</button>']},
@@ -202,7 +210,8 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   function filtered(){
     var v=V[cur],rows=data[cur]||[],q=$('q').value.trim().toLowerCase(),f=$('flt').value;
     return rows.filter(function(r){
-      if(v.fk&&f){if(f==='open'){if(['new','in_progress'].indexOf(r.status)<0)return false}else if(f==='act'){if(!r.active)return false}else if(r[v.fk]!==f)return false}
+      if(v.match&&f){if(!v.match(r,f))return false}
+      else if(v.fk&&f){if(f==='open'){if(['new','in_progress'].indexOf(r.status)<0)return false}else if(f==='act'){if(!r.active)return false}else if(r[v.fk]!==f)return false}
       return !q||v.text(r).toLowerCase().indexOf(q)>-1;
     });
   }
@@ -223,7 +232,8 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
   function load(){
     $('amsg').textContent='';
     return Promise.all(Object.keys(V).map(function(k){
-      return sb.from(V[k].table).select('*').order(V[k].order,{ascending:false}).limit(1000).then(function(r){
+      var qy=V[k].rpc?sb.rpc(V[k].rpc):sb.from(V[k].table).select('*').order(V[k].order,{ascending:false}).limit(1000);
+      return qy.then(function(r){
         if(r.error){data[k]=[];if(!/does not exist|schema cache/.test(r.error.message||''))console.warn(k,r.error.message)}else data[k]=r.data||[];
       });
     })).then(function(){kpis();render()});
