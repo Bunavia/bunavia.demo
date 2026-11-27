@@ -171,7 +171,7 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
       match:function(c,f){return f==='book'?c.bookings>0:f==='paid'?c.bookings_paid>0:f==='none'?!c.bookings:f==='unconf'?!c.email_confirmed:f==='agent'?c.is_agent:true},
       cols:['Regjistruar','Emri','Email','Telefoni','Gjuha','Hyrja e fundit','Rezervime','Paguar','Udhëtarë të ruajtur'],
       row:function(c){return [dt(c.created_at),'<b>'+esc(((c.first_name||'')+' '+(c.last_name||'')).trim()||'–')+'</b>'+(c.is_agent?' <span class="st paid">Agjent</span>':''),esc(c.email)+(c.email_confirmed?' <span title="Email i konfirmuar" style="color:#1F7A4D">✓</span>':'<br><small style="color:#B42318">pa konfirmuar</small>'),
-        c.phone?'<a href="tel:'+esc(String(c.phone).replace(/[^+\d]/g,''))+'">'+esc(c.phone)+'</a>':'–',esc((c.language||'').toUpperCase()),c.last_sign_in_at?dt(c.last_sign_in_at):'–',
+        c.phone?'<a href="tel:'+esc(String(c.phone).replace(/[^+\d]/g,''))+'">'+esc(c.phone)+'</a>'+(phoneDup(c)?'<br><small style="color:#B42318;font-weight:700">⚠ i njëjti numër te '+phoneDup(c)+' llogari</small>':''):'–',esc((c.language||'').toUpperCase()),c.last_sign_in_at?dt(c.last_sign_in_at):'–',
         c.bookings?'<b>'+c.bookings+'</b>'+(c.last_booking_at?'<br><small>e fundit '+dt(c.last_booking_at).slice(0,10)+'</small>':''):'0',c.bookings_paid?'<b>'+eur(c.spent_eur)+'</b><br><small>'+c.bookings_paid+' rezervime</small>':'–',c.saved_travellers||0]},
       text:function(c){return [c.first_name,c.last_name,c.email,c.phone].join(' ')},
       open:function(c){$('q').value=c.email||'';setTab('bookings')}},
@@ -202,6 +202,10 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
         '<textarea class="i" rows="3" maxlength="1000" style="min-width:220px;width:100%" data-repv="'+esc(r.id)+'" placeholder="Opsionale – shfaqet nën vlerësim">'+esc(r.reply||'')+'</textarea><br><button class="btn sm" type="button" data-rep="'+esc(r.id)+'" style="margin-top:6px">Ruaj përgjigjen</button>']},
       text:function(r){return [r.display_name,r.comment,r.route,r.reply].join(' ')}}
   };
+  // Same normal form as bv_phone_norm() in the database
+  function phoneNorm(v){v=String(v||'').trim();if(!v)return '';var d=v.replace(/\D/g,'');if(!/^\+/.test(v)){if(d.slice(0,2)!=='00')return 'L'+d;d=d.slice(2)}
+    ['383','389','355','381','382','385','386','387','41','49','43','33','39','44','32','31','46','47','45','90','30','36','40','48','420','421'].some(function(cc){if(d.indexOf(cc+'0')===0){d=cc+d.slice(cc.length+1);return true}});return d}
+  function phoneDup(c){var n=phoneNorm(c.phone);if(!n)return 0;var k=(data.customers||[]).filter(function(x){return x.id!==c.id&&phoneNorm(x.phone)===n}).length;return k?k+1:0}
   function statusSel(table,id,val,opts){return '<select class="i" style="min-width:150px" data-st="'+table+'" data-id="'+esc(id)+'">'+opts.map(function(o){return '<option value="'+o+'"'+(o===val?' selected':'')+'>'+esc(ST[o]||o)+'</option>'}).join('')+'</select>'}
 
   function tabs(){
