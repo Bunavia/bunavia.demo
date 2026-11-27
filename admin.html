@@ -92,7 +92,7 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
       <button class="kpi" type="button" data-go="groups" data-f="new"><b id="k4">–</b><span>Kërkesa të reja për grupe</span></button>
     </div>
     <div class="tabs" role="tablist" id="tabs"></div>
-    <div class="bar"><input class="i" id="q" type="search" placeholder="Kërko: referencë, email, emër…"><select class="i" id="flt"></select><span class="sp"></span><button class="btn gh sm" id="csv" type="button">Shkarko CSV</button><button class="btn gh sm" id="rl" type="button">Rifresko</button><button class="btn sm" id="stb" type="button">📊 Statistika</button></div>
+    <div class="bar"><input class="i" id="q" type="search" placeholder="Kërko: referencë, email, emër…"><select class="i" id="flt"></select><span class="sp"></span><button class="btn gh sm" id="csv" type="button">Shkarko CSV</button><button class="btn gh sm" id="rl" type="button">Rifresko</button><button class="btn sm" id="stb" type="button">📊 Statistika</button><button class="btn sm" id="vsb" type="button">📈 Vizitorët</button></div>
     <div class="tw"><table><thead id="th"></thead><tbody id="tb"></tbody></table></div>
     <p class="msg" id="amsg" role="status"></p>
   </section>
@@ -121,7 +121,18 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
 <dialog id="std" aria-labelledby="stt" style="width:min(760px,calc(100% - 16px))">
   <div class="dh"><h2 id="stt">Statistika</h2><button class="btn gh sm" type="button" data-x>Mbyll</button></div>
   <div style="padding:14px 18px"><div class="bar" style="margin:0 0 10px"><label style="font-size:14px">Periudha <select class="i" id="stp" style="width:auto"><option value="30">30 ditët e fundit</option><option value="90">90 ditët e fundit</option><option value="365">12 muajt e fundit</option><option value="0">Gjithë kohën</option></select></label></div><div id="stc"></div>
-  <p style="font-size:12.5px;color:#5A6B80;margin:12px 0 0">Llogaritur nga të dhënat në databazë (rezervimet, kërkesat, regjistrimet). Vizitorët e faqes shihen te Cloudflare Web Analytics.</p></div>
+  <p style="font-size:12.5px;color:#5A6B80;margin:12px 0 0">Llogaritur nga të dhënat në databazë (rezervimet, kërkesat, regjistrimet). Vizitorët e faqes shihen te butoni 📈 Vizitorët.</p></div>
+</dialog>
+<dialog id="vsd" aria-labelledby="vst" style="width:min(980px,calc(100% - 16px))">
+  <div class="dh"><h2 id="vst">Vizitorët e faqes</h2><button class="btn gh sm" type="button" data-x>Mbyll</button></div>
+  <div style="padding:14px 18px">
+    <div class="bar" style="margin:0 0 10px"><label style="font-size:14px">Periudha <select class="i" id="vsp" style="width:auto"><option value="1">Sot (24 orët e fundit)</option><option value="7">7 ditët e fundit</option><option value="30" selected>30 ditët e fundit</option><option value="90">90 ditët e fundit</option><option value="365">12 muajt e fundit</option></select></label>
+      <span class="sp"></span><button class="btn gh sm" type="button" id="vsr">Rifresko</button><button class="btn gh sm" type="button" id="vscsv">Shkarko gjurmët (CSV)</button></div>
+    <div id="vsc"><p>Duke ngarkuar…</p></div>
+    <h3 style="margin:18px 0 6px;font-size:16px">Gjurmët e fundit</h3>
+    <p style="font-size:12.5px;color:#5A6B80;margin:0 0 8px">Çdo vizitë ka një kod të rastësishëm. Klikoni një vizitë për të parë rrugën e plotë: faqet, kërkimet, klikimet dhe hapat e rezervimit. Nuk ruhen IP, emra, email-e apo të dhëna të pasaportës.</p>
+    <div id="vsl" style="max-height:420px;overflow:auto;border:1px solid var(--line);border-radius:10px"></div>
+  </div>
 </dialog>
 <dialog id="md" aria-labelledby="mdt" style="width:min(560px,calc(100% - 16px))">
   <div class="dh"><h2 id="mdt">Shkruaj klientit</h2><button class="btn gh sm" type="button" data-x>Mbyll</button></div>
@@ -340,6 +351,62 @@ dialog::backdrop{background:rgba(7,10,19,.55)}
     $('stc').innerHTML=h;
   }
   $('stb').addEventListener('click',function(){stats();$('std').showModal()});
+
+  // ---------- website visitors (table site_events, function site_stats) ----------
+  var VK={view:'📄 Faqe',section:'↪ Seksion',click:'👆 Klik',search:'🔎 Kërkim',submit:'📨 Formular',dialog:'🪟 Dritare',booking:'✅ Rezervim',newsletter:'✉ Newsletter',assistant:'🤖 Asistenti',lang:'🌐 Gjuha',leave:'🚪 Doli',error:'⚠ Gabim',step:'➡ Hap'};
+  var DEV={m:'📱 Celular',t:'📲 Tablet',d:'💻 Kompjuter','?':'?'};
+  var WIN={chk:'Rezervimi (checkout)',seatd:'Ulëset',cald:'Kalendari i çmimeve',alertd:'Njoftim çmimi',acct:'Llogaria',dpk:'Zgjedhja e datës',instd:'Këstet'};
+  var vsRows=[];
+  function evText(e){var d=e.data||{};
+    if(e.kind==='view')return esc(e.page)+(d.r?' · nga <b>'+esc(d.r)+'</b>':'')+(d.us?' · fushata <b>'+esc(d.us)+'</b>':'');
+    if(e.kind==='search')return '<b>'+esc((d.from||'?')+' → '+(d.to||'?'))+'</b> · '+esc((d.dep||'')+(d.ret?' / '+d.ret:''))+' · '+esc(d.pax||'')+' · '+esc(d.cabin||'')+(d.direct?' · vetëm direkt':'');
+    if(e.kind==='click')return esc(d.t||d.n||d.id||'')+(d.val!=null&&d.val!==''?' = '+esc(String(d.val)):'')+(d.h?' <small>('+esc(d.h)+')</small>':'')+(d.in?' <small style="color:#8193A8">në #'+esc(d.in)+'</small>':'');
+    if(e.kind==='dialog')return esc(WIN[d.id]||d.id||'');
+    if(e.kind==='booking')return '<b>'+esc(d.ref||'')+'</b> · '+esc((d.from||'')+' → '+(d.to||''))+' · €'+esc(d.eur||'')+' · '+esc(d.pay||'')+(d.saved===false?' · ⚠ nuk u ruajt (WhatsApp)':'');
+    if(e.kind==='leave')return esc(d.sec)+' sek në faqe · lëvizi '+esc(d.s)+'%';
+    if(e.kind==='error')return '<span style="color:#B42318">'+esc(d.m||'')+' <small>'+esc(d.f||'')+'</small></span>';
+    if(e.kind==='section')return esc(d.h||'');
+    if(e.kind==='lang')return esc(d.to||'');
+    if(e.kind==='submit')return esc(d.id||'');
+    return esc(JSON.stringify(d));}
+  function vbars(list,key,label){var max=Math.max.apply(null,list.map(function(x){return x.n}).concat([1]));
+    return list.length?list.map(function(x){return '<div style="display:flex;align-items:center;gap:8px;font-size:13px;margin:3px 0"><span style="flex:0 0 46%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="'+esc(x[key])+'">'+(label?label(x[key]):esc(x[key]))+'</span><span style="flex:1;background:#EEF3FA;border-radius:4px;height:14px"><i style="display:block;height:14px;border-radius:4px;background:#1D6FD8;width:'+Math.max(3,Math.round(x.n/max*100))+'%"></i></span><b style="min-width:34px;text-align:right">'+x.n+'</b></div>'}).join(''):'<p style="color:#8193A8;font-size:13px;margin:4px 0">Ende pa të dhëna</p>'}
+  function vbox(t,h){return '<div class="box" style="margin:0"><h3 style="margin:0 0 8px;font-size:14px">'+t+'</h3>'+h+'</div>'}
+  function vstats(){
+    var c=$('vsc');c.innerHTML='<p>Duke ngarkuar…</p>';
+    sb.rpc('site_stats',{p_days:+$('vsp').value}).then(function(r){
+      if(r.error){c.innerHTML='<p class="msg err">'+esc(r.error.message)+'</p>';return}
+      var s=r.data||{},f=s.funnel||{},pc=function(a,b){return b?Math.round(a/b*100)+'%':'–'};
+      var days=s.by_day||[],mx=Math.max.apply(null,days.map(function(d){return d.visits}).concat([1]));
+      var chart=days.length?'<div style="display:flex;align-items:flex-end;gap:2px;height:120px;border-bottom:1px solid var(--line);padding-top:6px">'+days.map(function(d){return '<div title="'+esc(d.day)+': '+d.visits+' vizita, '+d.searches+' kërkime, '+d.bookings+' rezervime" style="flex:1;min-width:3px;background:#1D6FD8;border-radius:3px 3px 0 0;height:'+Math.max(2,Math.round(d.visits/mx*100))+'%"></div>'}).join('')+'</div><div style="display:flex;justify-content:space-between;font-size:11px;color:#8193A8"><span>'+esc(days[0].day)+'</span><span>'+esc(days[days.length-1].day)+'</span></div>':'<p style="color:#8193A8;font-size:13px">Ende pa vizita në këtë periudhë.</p>';
+      c.innerHTML='<div class="kpis" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px">'+
+        [['Vizita',s.visits],['Faqe të hapura',s.views],['Kërkime',s.searches],['Rezervime',s.bookings],['Kohëzgjatja mesatare',(s.avg_minutes||0)+' min'],['Konvertimi',pc(f.booked,f.visits)]].map(function(k){return '<div class="kpi" style="cursor:default"><b>'+esc(k[1]==null?0:k[1])+'</b><span>'+esc(k[0])+'</span></div>'}).join('')+'</div>'+
+        '<div class="box" style="margin:10px 0"><h3 style="margin:0 0 8px;font-size:14px">Vizitat për ditë</h3>'+chart+'</div>'+
+        '<div class="box" style="margin:0 0 10px"><h3 style="margin:0 0 8px;font-size:14px">Rruga e klientit</h3>'+vbars([{k:'Erdhën në faqe',n:f.visits||0},{k:'Kërkuan fluturim ('+pc(f.search,f.visits)+')',n:f.search||0},{k:'Hapën rezervimin ('+pc(f.checkout,f.search)+')',n:f.checkout||0},{k:'Dërguan rezervimin ('+pc(f.booked,f.checkout)+')',n:f.booked||0}],'k')+'</div>'+
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px">'+
+        vbox('Linjat më të kërkuara',vbars(s.routes||[],'route'))+vbox('Nga erdhën',vbars(s.referrers||[],'ref'))+
+        vbox('Faqet',vbars(s.pages||[],'page'))+vbox('Klikimet më të shpeshta',vbars(s.clicks||[],'label'))+
+        vbox('Pajisjet',vbars(s.devices||[],'dev',function(v){return DEV[v]||esc(v)}))+vbox('Gjuha',vbars(s.langs||[],'lang'))+
+        vbox('Shtetet',vbars(s.countries||[],'country'))+vbox('Fushatat (utm)',vbars(s.campaigns||[],'utm'))+
+        ((s.errors||[]).length?vbox('⚠ Gabime në faqe',vbars(s.errors,'msg')):'')+'</div>';
+    });
+    var since=new Date(Date.now()-(+$('vsp').value)*864e5).toISOString();
+    sb.from('site_events').select('at,session,kind,page,data,country,dev,lang').gte('at',since).order('at',{ascending:false}).limit(1000).then(function(r){
+      vsRows=r.data||[];var by={},order=[];
+      vsRows.forEach(function(e){if(!by[e.session]){by[e.session]=[];order.push(e.session)}by[e.session].push(e)});
+      $('vsl').innerHTML=order.length?order.slice(0,120).map(function(sid){var ev=by[sid].slice().reverse(),a=ev[0],z=ev[ev.length-1],has=function(k){return ev.some(function(e){return e.kind===k})};
+        var tags=(has('booking')?'<span class="st ticketed">Rezervoi</span> ':'')+(has('search')?'<span class="st paid">Kërkoi</span> ':'')+(has('error')?'<span class="st cancelled">Gabim</span> ':'');
+        return '<details style="border-bottom:1px solid var(--line)"><summary style="padding:8px 10px;cursor:pointer;font-size:13.5px"><b>'+dt(a.at)+'</b> · '+(DEV[a.dev]||'')+' · '+esc(a.lang||'')+' · '+esc(a.country||'')+' · '+ev.length+' gjurmë · '+Math.max(0,Math.round((new Date(z.at)-new Date(a.at))/60000))+' min '+tags+'<small class="mono" style="color:#8193A8"> '+esc(sid)+'</small></summary>'+
+          '<table style="width:100%;font-size:13px;border-collapse:collapse">'+ev.map(function(e){return '<tr><td class="nw" style="padding:3px 10px;color:#5A6B80;vertical-align:top">'+dt(e.at).slice(11)+'</td><td class="nw" style="padding:3px 6px;vertical-align:top">'+(VK[e.kind]||esc(e.kind))+'</td><td style="padding:3px 10px">'+evText(e)+'</td></tr>'}).join('')+'</table></details>'}).join(''):'<p style="padding:10px;color:#8193A8">Ende pa gjurmë në këtë periudhë.</p>';
+    });
+  }
+  $('vsb').addEventListener('click',function(){vstats();$('vsd').showModal()});
+  $('vsp').addEventListener('change',vstats);$('vsr').addEventListener('click',vstats);
+  $('vscsv').addEventListener('click',function(){
+    var rows=[['koha','vizita','lloji','faqja','te_dhenat','shteti','pajisja','gjuha']].concat(vsRows.map(function(e){return [e.at,e.session,e.kind,e.page||'',JSON.stringify(e.data||{}),e.country||'',e.dev||'',e.lang||'']}));
+    var csv=rows.map(function(r){return r.map(function(v){v=String(v);return /[",;\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}).join(',')}).join('\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='bunavia-vizitoret.csv';document.body.appendChild(a);a.click();setTimeout(function(){a.remove()},500);
+  });
   $('stp').addEventListener('change',stats);
 
   // ---------- list events ----------

@@ -2713,6 +2713,7 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
     return 'Hello BUNAVIA, booking request '+rec.reference+'\n'+t.from+' to '+t.to+(t.legs&&t.legs.length?' + '+t.legs.map(function(l){return l.a+' to '+l.b+' on '+l.d}).join('; '):'')+'\n'+t.trip+', depart '+t.dep+(t.ret?', return '+t.ret:'')+'\n'+t.airline+' '+t.flights+', '+t.time+', '+t.stops+(t.flexible?'\nFlexible dates: +/- 3 days':'')+'\nBaggage per passenger: '+(t.extras.bag?((t.extras.bag.small_item===false?'':'small bag')+(t.extras.bag.cabin==='trolley'?' + cabin bag '+(t.extras.bag.cabin_kg||8)+' kg (in fare)':t.extras.bag.cabin==='added'?' + cabin bag '+(t.extras.bag.cabin_kg||8)+' kg (added, EUR '+t.extras.bag.cabin_per_pax_eur+' each)':'')+(t.extras.bag.checked==='included'?' + checked bag 23 kg (in fare)':t.extras.bag.checked==='added'?' + checked bag 23 kg (added, EUR '+t.extras.bag.per_pax_eur+' each)':' (no checked bag)')):(t.extras.baggage==='checked'?'1 checked bag per passenger':'included only'))+(t.extras.seats&&t.extras.seats.length?'\nSeats: '+t.extras.seats.map(function(z){return z.flight+' '+z.seat+' ('+z.passenger+', EUR '+z.eur+')'}).join('; '):'')+(t.extras.requests?'\nRequests: '+t.extras.requests:'')+(t.extras.invoice?'\nInvoice: '+t.extras.invoice.company+', '+t.extras.invoice.vat+', '+t.extras.invoice.address:'')+'\nPassengers: '+rec.passengers.map(function(x){return x.first+' '+x.last+' ('+x.type+')'}).join(', ')+'\nPayment: '+rec.payment_method+'\nTotal: EUR '+rec.total_eur;
   }
   function done(rec,saved){
+    try{window.bvTrack&&window.bvTrack('booking',{ref:rec.reference,eur:Math.round(Number(rec.total_eur)||0),pay:rec.payment_method,pax:(rec.passengers||[]).length,saved:!!saved,from:(rec.trip||{}).from,to:(rec.trip||{}).to})}catch(x){}
     var m={card:T('Card')+' (Visa, Mastercard)',apple_pay:'Apple Pay',google_pay:'Google Pay',bank_transfer:T('Bank transfer'),office:T('Pay at our office')}[rec.payment_method];
     var bt=((window.BV_CONFIG||{}).payments||{}).bankTransfer||{},payInfo='';
     if(rec.payment_method==='bank_transfer'){
@@ -2856,7 +2857,7 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
   f.addEventListener('submit',function(e){
     e.preventDefault();if(!f.reportValidity())return;
     var sb=window.__sb,b=f.querySelector('button');
-    function ok(email){f.reset();m.className='note ok';m.textContent=T('Almost done: we sent you an email. Please click the link in it to confirm your subscription.');
+    function ok(email){try{window.bvTrack&&window.bvTrack('newsletter',{})}catch(x){}f.reset();m.className='note ok';m.textContent=T('Almost done: we sent you an email. Please click the link in it to confirm your subscription.');
       try{sb.functions.invoke('bunavia-agent',{body:{action:'newsletter',email:email}}).catch(function(){})}catch(x){}}
     function fail(){b.disabled=false;m.className='note err';m.textContent=T('Something went wrong. Please try again or contact us at info@bunavia.com.')}
     if(!sb)return fail();
@@ -3219,5 +3220,6 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
 })();
 </script>
 
+<script src="/track.js" defer></script>
 </body>
 </html>
