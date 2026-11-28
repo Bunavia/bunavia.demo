@@ -2974,21 +2974,29 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!sup.hidden){open(false);fab.focus()}});
   document.addEventListener('click',function(e){if(!sup.hidden&&!sup.contains(e.target)&&!fab.contains(e.target))open(false)});
   var loading=false;
-  function startChat(){
-    if(window.Tawk_API&&window.__tawkReady){Tawk_API.showWidget();Tawk_API.maximize();open(false);return}
+  // The agent sees what the visitor already asked the AI assistant, so the visitor does not have to repeat it
+  var ctxSent=false;
+  function sendCtx(ctx){
+    if(!ctx||!ctx.msgs||!ctx.msgs.length||ctxSent||!window.Tawk_API||!Tawk_API.addEvent)return;
+    var meta={},n=0;ctx.msgs.slice(-8).forEach(function(x){n++;meta[(n<10?'0':'')+n+'_'+(x.role==='user'?'klienti':'asistenti')]=String(x.content||'').replace(/\s+/g,' ').slice(0,250)});
+    try{Tawk_API.addEvent('biseda-me-asistentin-AI',meta,function(){});ctxSent=true}catch(x){}
+  }
+  function startChat(ctx){
+    ctx=ctx&&ctx.msgs?ctx:null;
+    if(window.Tawk_API&&window.__tawkReady){Tawk_API.showWidget();Tawk_API.maximize();open(false);sendCtx(ctx);return}
     if(loading)return;loading=true;m.textContent=T('Loading chat...');
     // The chat provider is loaded only when the visitor asks for it, so no chat cookies are set before that.
     window.Tawk_API=window.Tawk_API||{};window.Tawk_LoadStart=new Date();
     var lg=document.documentElement.lang||'en';
     Tawk_API.customStyle={visibility:{desktop:{position:'br',xOffset:20,yOffset:90},mobile:{position:'br',xOffset:10,yOffset:80}}};
-    Tawk_API.onLoad=function(){window.__tawkReady=1;loading=false;try{Tawk_API.addTags&&Tawk_API.addTags(['lang-'+lg],function(){})}catch(x){}Tawk_API.showWidget();Tawk_API.maximize();open(false)};
+    Tawk_API.onLoad=function(){window.__tawkReady=1;loading=false;try{Tawk_API.addTags&&Tawk_API.addTags(['lang-'+lg].concat(ctx?['nga-asistenti-AI']:[]),function(){})}catch(x){}Tawk_API.showWidget();Tawk_API.maximize();open(false);sendCtx(ctx)};
     Tawk_API.onChatMinimized=function(){try{Tawk_API.hideWidget()}catch(x){}};
     var s=document.createElement('script');s.async=true;s.src='https://embed.tawk.to/'+TAWK_ID;s.charset='UTF-8';s.setAttribute('crossorigin','*');
     s.onerror=function(){loading=false;m.textContent=T('The chat could not open. Please message us on WhatsApp.')};
     document.head.appendChild(s);
     setTimeout(function(){if(loading){loading=false;m.textContent=T('The chat could not open. Please message us on WhatsApp.')}},12000);
   }
-  live.addEventListener('click',startChat);
+  live.addEventListener('click',function(){startChat()});
   window.__bvLiveChat=startChat;window.__bvSup=open;
 })();
 </script>
@@ -3225,7 +3233,7 @@ document.addEventListener('click',function(e){var a=e.target.closest&&e.target.c
   function fmt(t){return esc(t).replace(/(https:\/\/[^\s<)]+[^\s<).,])/g,'<a href="$1" target="_blank" rel="noopener">$1</a>').replace(/\b([\w.+-]+@bunavia\.com)\b/g,'<a href="mailto:$1">$1</a>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>')}
   function bubble(role,text,extra){var d=document.createElement('div');d.className='aic-m '+(role==='user'?'me':'ai');d.innerHTML=fmt(text);if(extra)d.appendChild(extra);L.appendChild(d);L.scrollTop=L.scrollHeight;return d}
   function agentBtns(){var w=document.createElement('div');w.className='aic-ag';
-    var a=document.createElement('button');a.type='button';a.textContent=T('Talk to an agent');a.addEventListener('click',function(){close();if(window.__bvLiveChat)window.__bvLiveChat()});
+    var a=document.createElement('button');a.type='button';a.textContent=T('Talk to an agent');a.addEventListener('click',function(){close();if(window.__bvLiveChat)window.__bvLiveChat({msgs:msgs.map(function(x){return {role:x.role,content:x.content}})})});
     var c=document.createElement('a');c.href='tel:+'+String(cfg.phone||'').replace(/\D/g,'');c.textContent=T('Call us');
     var m=document.createElement('a');m.href='mailto:info@bunavia.com';m.textContent='info@bunavia.com';
     w.appendChild(a);w.appendChild(c);w.appendChild(m);return w}
